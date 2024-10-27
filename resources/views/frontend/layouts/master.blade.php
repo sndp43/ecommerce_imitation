@@ -18,11 +18,11 @@
     <!-- google fonts -->
     <link href="https://fonts.googleapis.com/css?family=Lato:300,300i,400,400i,700,900" rel="stylesheet">
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="{{asset('frontend/css/vendor/bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{asset('frontend/css/css_vendor/bootstrap.min.css')}}">
     <!-- Pe-icon-7-stroke CSS -->
-    <link rel="stylesheet" href="{{asset('frontend/css/vendor/pe-icon-7-stroke.css')}}">
+    <link rel="stylesheet" href="{{asset('frontend/css/css_vendor/pe-icon-7-stroke.css')}}">
     <!-- Font-awesome CSS -->
-    <link rel="stylesheet" href="{{asset('frontend/css/vendor/font-awesome.min.css')}}">
+    <link rel="stylesheet" href="{{asset('frontend/css/css_vendor/font-awesome.min.css')}}">
     <!-- Slick slider css -->
     <link rel="stylesheet" href="{{asset('frontend/css/plugins/slick.min.css')}}">
     <!-- animate css -->
@@ -97,11 +97,11 @@
 ============================================ -->
 
     <!-- Modernizer JS -->
-    <script src="{{asset('frontend/js/vendor/modernizr-3.6.0.min.js')}}"></script>
+    <script src="{{asset('frontend/js/js_vendor/modernizr-3.6.0.min.js')}}"></script>
     <!-- jQuery JS -->
-    <script src="{{asset('frontend/js/vendor/jquery-3.6.0.min.js')}}"></script>
+    <script src="{{asset('frontend/js/js_vendor/jquery-3.6.0.min.js')}}"></script>
     <!-- Bootstrap JS -->
-    <script src="{{asset('frontend/js/vendor/bootstrap.bundle.min.js')}}"></script>
+    <script src="{{asset('frontend/js/js_vendor/bootstrap.bundle.min.js')}}"></script>
     <!-- slick Slider JS -->
     <script src="{{asset('frontend/js/plugins/slick.min.js')}}"></script>
     <!-- Countdown JS -->
