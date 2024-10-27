@@ -1,0 +1,33 @@
+# Laravel specific
+node_modules/
+vendor/
+
+# IDE files
+.idea/
+.vscode/
+
+# Log files
+storage/logs/
+
+# Compiled Files
+bootstrap/cache/
+public/mix-manifest.json
+public/storage/
+
+# Session and Cache Files
+storage/framework/sessions/
+storage/framework/views/
+
+# Composer Install Files
+composer.lock
+
+# PHPUnit Test Coverage Files
+coverage/
+
+# Build Files
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# Environment variables
+.env
