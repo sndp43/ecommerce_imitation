@@ -17,7 +17,7 @@
 
                   </div>
                   <div class="card-body">
-                    <form action="{{route('admin.category.store')}}" method="POST">
+                    <form action="{{route('admin.category.store')}}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group">
                             <label>Icon</label>
@@ -26,6 +26,10 @@
                                 data-unselected-class="btn-info" role="iconpicker" name="icon"></button>
                              </div>
 
+                        </div>
+                        <div class="form-group">
+                            <label>Image</label>
+                            <input type="file" class="form-control" name="image">
                         </div>
                         <div class="form-group">
                             <label>Name</label>

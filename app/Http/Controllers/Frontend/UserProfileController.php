@@ -11,7 +11,8 @@ class UserProfileController extends Controller
 {
     public function index()
     {
-        return view('frontend.dashboard.profile');
+        $activeTab = 'account';
+        return view('frontend.dashboard.profile',compact('activeTab'));
     }
 
     public function updateProfile(Request $request)
@@ -31,9 +32,9 @@ class UserProfileController extends Controller
 
             $image = $request->image;
             $imageName = rand().'_'.$image->getClientOriginalName();
-            $image->move(public_path('uploads'), $imageName);
+            $image->move(public_path('uploads/profile'), $imageName);
 
-            $path = 'uploads/'.$imageName;
+            $path = 'uploads/profile/'.$imageName;
 
             $user->image = $path;
         }

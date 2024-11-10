@@ -17,7 +17,7 @@
 
                   </div>
                   <div class="card-body">
-                    <form action="{{route('admin.category.update', $category->id)}}" method="POST">
+                    <form action="{{route('admin.category.update', $category->id)}}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         <div class="form-group">
@@ -27,6 +27,15 @@
                                 data-unselected-class="btn-info" role="iconpicker" name="icon" ></button>
                              </div>
 
+                        </div>
+                        <div class="form-group">
+                            <label>Preview</label>
+                            <br>
+                            <img src="{{asset($category->thumb_image)}}" style="width:200px" alt="">
+                        </div>
+                        <div class="form-group">
+                            <label>Image</label>
+                            <input type="file" class="form-control" name="image">
                         </div>
                         <div class="form-group">
                             <label>Name</label>

@@ -19,7 +19,7 @@ class CheckOutController extends Controller
     }
 
     public function createAddress(Request $request)
-    {
+    {   $activeTab = 'addresss';
         $request->validate([
             'name' => ['required', 'max:200'],
             'phone' => ['required', 'max:200'],

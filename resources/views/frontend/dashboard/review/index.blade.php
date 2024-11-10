@@ -1,31 +1,45 @@
 @extends('frontend.dashboard.layouts.master')
 
 @section('title')
-{{$settings->site_name}} || Reviews
+{{$settings->site_name}} || Product
 @endsection
 
 @section('content')
   <!--=============================
     DASHBOARD START
   ==============================-->
-  <section id="wsus__dashboard">
-    <div class="container-fluid">
-        @include('frontend.dashboard.layouts.sidebar')
-
-      <div class="row">
-        <div class="col-xl-9 col-xxl-10 col-lg-9 ms-auto">
-          <div class="dashboard_content mt-2 mt-md-0">
-            <h3><i class="far fa-user"></i> All Reviews</h3>
-            <div class="wsus__dashboard_profile">
-              <div class="wsus__dash_pro_area">
-                {{ $dataTable->table() }}
-              </div>
+<!-- breadcrumb area start -->
+<div class="breadcrumb-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="breadcrumb-wrap">
+                    <nav aria-label="breadcrumb">
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="{{url('/')}}"><i class="fa fa-home"></i></a></li>
+                            <li class="breadcrumb-item active" aria-current="page">Reviews</li>
+                        </ul>
+                    </nav>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
     </div>
-  </section>
+</div>
+        <!-- breadcrumb area end -->
+<!-- my account wrapper start -->
+<div class="my-account-wrapper section-padding">
+    <div class="container">
+        <div class="section-bg-color">
+            <div class="row">
+                <div class="col-lg-12">
+                @include('frontend.dashboard.layouts.sidebar')
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- my account wrapper end -->
+
   <!--=============================
     DASHBOARD START
   ==============================-->

@@ -185,6 +185,19 @@
                                 <div class="row">
                                     <div class="col-lg-6">
                                         <div class="single-input-item">
+                                            <input required id="country_code"
+                                            value="+91" name="country_code" type="text" placeholder="Country Code">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="single-input-item">
+                                            <input id="phone" type="text" name="phone" placeholder="Phone Number">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="single-input-item">
                                             
                                             <input required id="password" name="password" type="password" placeholder="Password">
                                         </div>

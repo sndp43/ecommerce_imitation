@@ -46,7 +46,7 @@ class AdminVendorProfileController extends Controller
         ]);
 
         $vendor = Vendor::where('user_id', Auth::user()->id)->first();
-        $bannerPath = $this->updateImage($request, 'banner', 'uploads', $vendor->banner);
+        $bannerPath = $this->updateImage($request, 'banner', 'uploads/vendorprofile', $vendor->banner);
         $vendor->banner = empty(!$bannerPath) ? $bannerPath : $vendor->banner;
         $vendor->phone = $request->phone;
         $vendor->shop_name = $request->shop_name;

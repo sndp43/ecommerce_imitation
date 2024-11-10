@@ -14,9 +14,9 @@ class UserVendorReqeustController extends Controller
     use ImageUploadTrait;
 
     public function index()
-    {
+    {   $activeTab = 'uservendorrequest';
         $content = VendorCondition::first();
-        return view('frontend.dashboard.vendor-request.index', compact('content'));
+        return view('frontend.dashboard.vendor-request.index', compact('activeTab','content'));
     }
 
     public function create(Request $request)
@@ -34,7 +34,7 @@ class UserVendorReqeustController extends Controller
             return redirect()->back();
         }
 
-        $imagePath = $this->uploadImage($request, 'shop_image', 'uploads');
+        $imagePath = $this->uploadImage($request, 'shop_image', 'uploads/uservendorrequest');
 
 
         $vendor = new Vendor();

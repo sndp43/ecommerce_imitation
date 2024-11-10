@@ -1,6 +1,7 @@
 @php
+if($sliderSectionTwo) {
     $sliderSectionTwo = json_decode($sliderSectionTwo->value);
-
+}
 @endphp
 <div class="tab-pane fade" id="list-settings" role="tabpanel" aria-labelledby="list-settings-list">
     <div class="card border">
@@ -16,7 +17,7 @@
                             <select name="cat_one" class="form-control main-category">
                                 <option value="">Select</option>
                                 @foreach ($categories as $category)
-                                    <option {{$category->id == $sliderSectionTwo->category ? 'selected' : ''}} value="{{$category->id}}">{{$category->name}}</option>
+                                    <option {{($sliderSectionTwo &&$category->id == $sliderSectionTwo->category) ? 'selected' : ''}} value="{{$category->id}}">{{$category->name}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -31,7 +32,7 @@
                             <select name="sub_cat_one" id="" class="form-control sub-category">
                                 <option value="">select</option>
                                 @foreach ($subCategories as $subCategory)
-                                <option {{$subCategory->id == $sliderSectionTwo->sub_category ? 'selected' : ''}} value="{{$subCategory->id}}">{{ $subCategory->name }}</option>
+                                <option {{($sliderSectionTwo && $subCategory->id == $sliderSectionTwo->sub_category) ? 'selected' : ''}} value="{{$subCategory->id}}">{{ $subCategory->name }}</option>
                                 @endforeach
 
                             </select>
@@ -46,7 +47,7 @@
                             <select name="child_cat_one" id="" class="form-control child-category">
                                 <option value="">select</option>
                                 @foreach ($childCategories as $childCategory)
-                                    <option {{$childCategory->id ==  $sliderSectionTwo->child_category ? 'selected' : ''}} value="{{$childCategory->id}}">{{ $childCategory->name }}</option>
+                                    <option {{($sliderSectionTwo && $childCategory->id ==  $sliderSectionTwo->child_category) ? 'selected' : ''}} value="{{$childCategory->id}}">{{ $childCategory->name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -59,7 +60,6 @@
         </div>
     </div>
 </div>
-
 @push('scripts')
     <script>
         $(document).ready(function() {

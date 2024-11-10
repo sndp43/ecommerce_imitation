@@ -11,7 +11,8 @@ class UserOrderController extends Controller
 {
     public function index(UserOrderDataTable $dataTable)
     {
-        return $dataTable->render('frontend.dashboard.order.index');
+        $activeTab = 'orders';
+        return $dataTable->render('frontend.dashboard.order.index', compact('activeTab'));
     }
 
     public function show(string $id)

@@ -7,10 +7,12 @@ use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\SubCategory;
 use Illuminate\Http\Request;
+use App\Traits\ImageUploadTrait;
 use Str;
 
 class CategoryController extends Controller
 {
+    use ImageUploadTrait;
     /**
      * Display a listing of the resource.
      */
@@ -35,11 +37,16 @@ class CategoryController extends Controller
         $request->validate([
             'icon' => ['required', 'not_in:empty'],
             'name' => ['required', 'max:200', 'unique:categories,name'],
-            'status' => ['required']
+            'status' => ['required'],
+            'image' => ['required', 'image', 'max:3000'],
         ]);
 
-        $category = new Category();
+        /** Handle the image upload */
 
+        $imagePath = $this->uploadImage($request, 'image', 'uploads/categories');
+
+        $category = new Category();
+        $category->thumb_image = $imagePath;
         $category->icon = $request->icon;
         $category->name = $request->name;
         $category->slug = Str::slug($request->name);
@@ -76,11 +83,16 @@ class CategoryController extends Controller
         $request->validate([
             'icon' => ['required', 'not_in:empty'],
             'name' => ['required', 'max:200', 'unique:categories,name,'.$id],
-            'status' => ['required']
+            'status' => ['required'],
+            'image' => ['nullable', 'image', 'max:3000'],
         ]);
 
         $category = Category::findOrFail($id);
 
+        /** Handle the image upload */
+        $imagePath = $this->updateImage($request, 'image', 'uploads/categories', $category->thumb_image);
+
+        $category->thumb_image = empty(!$imagePath) ? $imagePath : $category->thumb_image;
         $category->icon = $request->icon;
         $category->name = $request->name;
         $category->slug = Str::slug($request->name);

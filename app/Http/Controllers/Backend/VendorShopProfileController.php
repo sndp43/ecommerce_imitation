@@ -46,7 +46,7 @@ class VendorShopProfileController extends Controller
         ]);
 
         $vendor = Vendor::where('user_id', Auth::user()->id)->first();
-        $bannerPath = $this->updateImage($request, 'banner', 'uploads', $vendor->banner);
+        $bannerPath = $this->updateImage($request, 'banner', 'uploads/vendorshopprofile', $vendor->banner);
         $vendor->banner = empty(!$bannerPath) ? $bannerPath : $vendor->banner;
         $vendor->shop_name = $request->shop_name;
         $vendor->phone = $request->phone;

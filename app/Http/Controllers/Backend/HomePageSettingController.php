@@ -16,7 +16,7 @@ class HomePageSettingController extends Controller
         $sliderSectionOne = HomePageSetting::where('key', 'product_slider_section_one')->first();
         $sliderSectionTwo = HomePageSetting::where('key', 'product_slider_section_two')->first();
         $sliderSectionThree = HomePageSetting::where('key', 'product_slider_section_three')->first();
-
+        //dd($popularCategorySection);
         return view('admin.home-page-setting.index', compact('categories', 'popularCategorySection', 'sliderSectionOne', 'sliderSectionTwo', 'sliderSectionThree'));
     }
 

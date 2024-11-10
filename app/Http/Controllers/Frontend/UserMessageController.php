@@ -12,6 +12,7 @@ use Stripe\Treasury\ReceivedCredit;
 class UserMessageController extends Controller
 {
     function index() {
+        $activeTab = 'messages';
         $userId = auth()->user()->id;
 
         $chatUsers = Chat::with('receiverProfile')->select(['receiver_id'])
@@ -20,7 +21,7 @@ class UserMessageController extends Controller
             ->groupBy('receiver_id')
             ->get();
 
-        return view('frontend.dashboard.messenger.index', compact('chatUsers'));
+        return view('frontend.dashboard.messenger.index', compact('chatUsers','activeTab'));
     }
 
     function sendMessage(Request $request) {

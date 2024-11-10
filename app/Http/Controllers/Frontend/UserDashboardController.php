@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 class UserDashboardController extends Controller
 {
     public function index()
-    {
+    {   $activeTab = 'dashboard';
         $totalOrder = Order::where('user_id', Auth::user()->id)->count();
         $pendingOrder = Order::where('user_id', Auth::user()->id)
             ->where('order_status', 'pending')->count();
@@ -22,6 +22,7 @@ class UserDashboardController extends Controller
         $wishlist = Wishlist::where('user_id', Auth::user()->id)->count();
 
         return view('frontend.dashboard.dashboard', compact(
+            'activeTab',
             'totalOrder',
             'pendingOrder',
             'completeOrder',

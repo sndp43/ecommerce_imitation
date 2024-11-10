@@ -15,8 +15,8 @@ class ReviewController extends Controller
     use ImageUploadTrait;
 
     public function index(UserProductReviewsDataTable $dataTable)
-    {
-        return $dataTable->render('frontend.dashboard.review.index');
+    {   $activeTab = 'reviews';
+        return $dataTable->render('frontend.dashboard.review.index',compact('activeTab'));
     }
 
     public function create(Request $request)
@@ -34,7 +34,7 @@ class ReviewController extends Controller
             return redirect()->back();
         }
 
-        $imagePaths = $this->uploadMultiImage($request, 'images', 'uploads');
+        $imagePaths = $this->uploadMultiImage($request, 'images', 'uploads/reviews');
 
         $productReview = new ProductReview();
         $productReview->product_id = $request->product_id;

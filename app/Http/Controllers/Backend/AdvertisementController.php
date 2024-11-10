@@ -80,25 +80,60 @@ class AdvertisementController extends Controller
     {
 
         $request->validate([
+            'banner_one_title' => ['required'],
             'banner_one_image' => ['image'],
             'banner_one_url' => ['required'],
+            'banner_one_url_text' => ['required'],
+            'banner_two_title' => ['required'],
             'banner_two_image' => ['image'],
-            'banner_two_url' => ['required']
+            'banner_two_url' => ['required'],
+            'banner_two_url_text' => ['required'],
+            'banner_three_title' => ['required'],
+            'banner_three_image' => ['image'],
+            'banner_three_url' => ['required'],
+            'banner_three_url_text' => ['required'],
+            'banner_four_title' => ['required'],
+            'banner_four_image' => ['image'],
+            'banner_four_url' => ['required'],
+            'banner_four_url_text' => ['required']
         ]);
 
         /** Handle the image upload */
         $imagePath = $this->updateImage($request, 'banner_one_image', 'uploads');
         $imagePathTwo = $this->updateImage($request, 'banner_two_image', 'uploads');
+        $imagePathThree = $this->updateImage($request, 'banner_three_image', 'uploads');
+        $imagePathFour = $this->updateImage($request, 'banner_four_image', 'uploads');
+
 
 
         $value = [
             'banner_one' => [
+                'banner_category' => $request->banner_one_category,
+                'banner_title' => $request->banner_one_title,
                 'banner_url' => $request->banner_one_url,
+                'banner_url_text' => $request->banner_one_url_text,
                 'status' => $request->banner_one_status == 'on' ? 1 : 0
             ],
             'banner_two' => [
+                'banner_category' => $request->banner_two_category,
+                'banner_title' => $request->banner_two_title,
                 'banner_url' => $request->banner_two_url,
+                'banner_url_text' => $request->banner_two_url_text,
                 'status' => $request->banner_two_status == 'on' ? 1 : 0
+            ],
+            'banner_three' => [
+                'banner_category' => $request->banner_three_category,
+                'banner_title' => $request->banner_three_title,
+                'banner_url' => $request->banner_three_url,
+                'banner_url_text' => $request->banner_three_url_text,
+                'status' => $request->banner_three_status == 'on' ? 1 : 0
+            ],
+            'banner_four' => [
+                'banner_category' => $request->banner_four_category,
+                'banner_title' => $request->banner_four_title,
+                'banner_url' => $request->banner_four_url,
+                'banner_url_text' => $request->banner_four_url_text,
+                'status' => $request->banner_four_status == 'on' ? 1 : 0
             ]
         ];
         if(!empty($imagePath)){
@@ -112,6 +147,18 @@ class AdvertisementController extends Controller
         }else {
 
             $value['banner_two']['banner_image'] = $request->banner_two_old_image;
+        }
+        if(!empty($imagePathThree)){
+            $value['banner_three']['banner_image'] = $imagePathThree;
+        }else {
+
+            $value['banner_three']['banner_image'] = $request->banner_three_old_image;
+        }
+        if(!empty($imagePathFour)){
+            $value['banner_four']['banner_image'] = $imagePathFour;
+        }else {
+
+            $value['banner_four']['banner_image'] = $request->banner_four_old_image;
         }
 
         $value = json_encode($value);

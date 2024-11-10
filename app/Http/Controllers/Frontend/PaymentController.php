@@ -23,7 +23,7 @@ use Razorpay\Api\Api;
 class PaymentController extends Controller
 {
     public function index()
-    {
+    {  
         if(!Session::has('address')){
             return redirect()->route('user.checkout');
         }

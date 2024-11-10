@@ -31,9 +31,9 @@ class VendorProfileController extends Controller
 
             $image = $request->image;
             $imageName = rand().'_'.$image->getClientOriginalName();
-            $image->move(public_path('uploads'), $imageName);
+            $image->move(public_path('uploads/vendorprofile'), $imageName);
 
-            $path = 'uploads/'.$imageName;
+            $path = 'uploads/vendorprofile/'.$imageName;
 
             $user->image = $path;
         }

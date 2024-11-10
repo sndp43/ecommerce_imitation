@@ -42,7 +42,7 @@ class BrandController extends Controller
             'status' => ['required']
         ]);
 
-        $logoPath = $this->uploadImage($request, 'logo', 'uploads');
+        $logoPath = $this->uploadImage($request, 'logo', 'uploads/brands');
         $brand = new Brand();
 
         $brand->logo = $logoPath;
@@ -87,7 +87,7 @@ class BrandController extends Controller
 
         $brand = Brand::findOrFail($id);
 
-        $logoPath = $this->updateImage($request, 'logo', 'uploads', $brand->logo);
+        $logoPath = $this->updateImage($request, 'logo', 'uploads/brands', $brand->logo);
 
         $brand->logo = empty(!$logoPath) ? $logoPath : $brand->logo;
         $brand->name = $request->name;

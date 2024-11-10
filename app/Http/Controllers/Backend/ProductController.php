@@ -57,9 +57,9 @@ class ProductController extends Controller
             'seo_description' => ['nullable','max:250'],
             'status' => ['required']
         ]);
-
+        dd($request);
         /** Handle the image upload */
-        $imagePath = $this->uploadImage($request, 'image', 'uploads');
+        $imagePath = $this->uploadImage($request, 'image', 'uploads/products');
 
         $product = new Product();
         $product->thumb_image = $imagePath;
@@ -135,7 +135,7 @@ class ProductController extends Controller
         $product = Product::findOrFail($id);
 
         /** Handle the image upload */
-        $imagePath = $this->updateImage($request, 'image', 'uploads', $product->thumb_image);
+        $imagePath = $this->updateImage($request, 'image', 'uploads/products', $product->thumb_image);
 
         $product->thumb_image = empty(!$imagePath) ? $imagePath : $product->thumb_image;
         $product->name = $request->name;

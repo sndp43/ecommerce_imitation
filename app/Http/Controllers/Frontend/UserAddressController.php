@@ -13,17 +13,18 @@ class UserAddressController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {
+    {   $activeTab = 'address';
         $addresses = UserAddress::where('user_id', Auth::user()->id)->get();
-        return view('frontend.dashboard.address.index', compact('addresses'));
+        return view('frontend.dashboard.address.index', compact('activeTab','addresses'));
     }
 
     /**
      * Show the form for creating a new resource.
      */
     public function create()
-    {
-        return view('frontend.dashboard.address.create');
+    {   $activeTab = 'address';
+        $activeAction = 'create-address';
+        return view('frontend.dashboard.address.create',compact('activeAction','activeTab'));
     }
 
     /**
