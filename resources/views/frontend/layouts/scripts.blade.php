@@ -5,12 +5,60 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+      //Dynamic Delete alart
+        $('body').on('click', '.delete-item', function(event){
+                event.preventDefault();
+
+                let deleteUrl = $(this).attr('href');
+
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to revert this!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, delete it!'
+                    }).then((result) => {
+                    if (result.isConfirmed) {
+
+                        $.ajax({
+                            type: 'DELETE',
+                            url: deleteUrl,
+
+                            success: function(data){
+
+                                if(data.status == 'success'){
+                                    Swal.fire(
+                                        'Deleted!',
+                                        data.message,
+                                        'success'
+                                    )
+                                    window.location.reload();
+                                }else if (data.status == 'error'){
+                                    Swal.fire(
+                                        'Cant Delete',
+                                        data.message,
+                                        'error'
+                                    )
+                                }
+                            },
+                            error: function(xhr, status, error){
+                                console.log(error);
+                            }
+                        })
+                    }
+                })
+            })
 
         // add product into cart
         $(document).on('submit', '.shopping-cart-form', function(e) {
             e.preventDefault();
+            console.log($(this));
             let formData = $(this).serialize();
-
+            let from = $(this).data('from') || '';
+            let wishlistId =$(this).data('wishlist') || '';
+            
             $.ajax({
                 method: 'POST',
                 data: formData,
@@ -20,6 +68,11 @@
                         getCartCount()
                         fetchSidebarCartProducts()
                         $('.mini_cart_actions').removeClass('d-none');
+                        if(from === 'wishlist') {
+                            console.log(formData);
+                            const params = new URLSearchParams(formData);
+                            removeFromWishlist(wishlistId);
+                        }
                         toastr.success(data.message);
                     }else if (data.status === 'error'){
                         toastr.error(data.message);
@@ -30,16 +83,37 @@
                 }
             })
         })
+        function removeFromWishlist(wishlistId) {
+            $.ajax({
+                method: 'POST',
+                data: {'id':wishlistId},
+                url: "{{ route('user.wishlist.destory-ajax') }}",
+                success: function(data) {
+                    if(data.status === 'success'){
+                        $('#wishlist_count').text($('#wishlist_count').text() != 0 ? $('#wishlist_count').text() - 1 : 0 )
+                        $('#mobile-wishlist_count').text($('#wishlist_count').text() != 0 ? $('#wishlist_count').text() - 1 : 0)
 
+                        //update the html 
+                         $("#"+wishlistId).remove();   
+                    }else if (data.status === 'error'){
+                        toastr.error(data.message);
+                    }
+                },
+                error: function(data) {
+
+                }
+            })   
+        }
         function getCartCount() {
             $.ajax({
                 method: 'GET',
                 url: "{{ route('cart-count') }}",
                 success: function(data) {
                     $('#cart-count').text(data);
+                    $('#mobile-cart-count').text(data);
                 },
                 error: function(data) {
-
+                    console.log("Error fetching the cart count:",data.messages);
                 }
             })
         }
@@ -50,27 +124,39 @@
                 url: "{{ route('cart-products') }}",
                 success: function(data) {
                     console.log(data);
-                    $('.mini_cart_wrapper').html("");
+                    $('.minicart-item-wrapper ul').html("");
                     var html = '';
                     for (let item in data) {
                         let product = data[item];
                         html += `
-                        <li id="mini_cart_${product.rowId}">
-                            <div class="wsus__cart_img">
-                                <a href="{{ url('product-detail') }}/${product.options.slug}"><img src="{{ asset('/') }}${product.options.image}" alt="product" class="img-fluid w-100"></a>
-                                <a class="wsis__del_icon remove_sidebar_product" data-id="${product.rowId}" href=""><i class="fas fa-minus-circle"></i></a>
+                        <li id="mini_cart_${product.rowId}" class="minicart-item" id="mini_cart_cbe9bd618baafef1d8d3458ec16ab937">
+                            <div class="minicart-thumb">
+                                <a href="{{ url('product-detail') }}/${product.options.slug}">
+                                    <img src="{{ asset('/') }}${product.options.image}" alt="product">
+                                </a>
                             </div>
-                            <div class="wsus__cart_text">
-                                <a class="wsus__cart_title" href="{{ url('product-detail') }}/${product.options.slug}">${product.name}</a>
-                                <p>{{ $settings->currency_icon }}${product.price}</p>
-                                <small>Variants total: {{ $settings->currency_icon }}${product.options.variants_total}</small>
-                                <br>
-                                <small>Qty: ${product.qty}</small>
+                            <div class="minicart-content">
+                                <h3 class="product-name">
+                                    <a href="{{ url('product-detail') }}/${product.options.slug}">${product.name}</a>
+                                </h3>
+                                    <span class="cart-quantity">${product.qty}
+                                    <strong class="">×</strong>
+                                    </span>
+                                    <span>{{ $settings->currency_icon }}${product.price}</span>
+                                    <div>
+                                        <small>Variants total: {{ $settings->currency_icon }}${product.options.variants_total}</small>
+                                    </div>
+                                    <div>
+                                    </div>
+                                </p>
                             </div>
-                        </li>`
+                            <button class="minicart-remove remove_sidebar_product" data-id="${product.rowId}" href="">
+                            <i class="pe-7s-close"></i></button>
+                        </li>
+                        `
                     }
 
-                    $('.mini_cart_wrapper').html(html);
+                    $('.minicart-item-wrapper ul').html(html);
 
                     getSidebarCartSubtoal();
 
@@ -97,15 +183,17 @@
 
                     getSidebarCartSubtoal()
 
-                    if ($('.mini_cart_wrapper').find('li').length === 0) {
+                    if ($('.minicart-item-wrapper').find('li').length === 0) {
                         $('.mini_cart_actions').addClass('d-none');
-                        $('.mini_cart_wrapper').html(
-                            '<li class="text-center">Cart Is Empty!</li>');
+                        $('.minicart-item-wrapper').html(
+                            '<ul><li class="text-center">Oops, nothing here yet!</li></ul>');
                     }
                     toastr.success(data.message)
+                    getCartCount()
                 },
                 error: function(data) {
                     console.log(data);
+                    getCartCount()
                 }
             })
         })
@@ -125,7 +213,7 @@
         }
 
         // add product to wishlist
-        $('.add_to_wishlist').on('click', function(e){
+        $(document).on('click','.add_to_wishlist',function(e){
             e.preventDefault();
             let id = $(this).data('id');
 
@@ -136,6 +224,7 @@
                 success:function(data){
                     if(data.status === 'success'){
                         $('#wishlist_count').text(data.count)
+                        $('#mobile-wishlist_count').text(data.count)
                         toastr.success(data.message);
                     }else if(data.status === 'error'){
                         toastr.error(data.message);
@@ -146,11 +235,87 @@
                 }
             })
         })
+        // $('.add_to_wishlist').on('click', function(e){
+        //     e.preventDefault();
+        //     let id = $(this).data('id');
+
+        //     $.ajax({
+        //         method: 'GET',
+        //         url: "{{route('wishlist.store')}}",
+        //         data: {id:id},
+        //         success:function(data){
+        //             if(data.status === 'success'){
+        //                 $('#wishlist_count').text(data.count)
+        //                 $('#mobile-wishlist_count').text(data.count)
+        //                 toastr.success(data.message);
+        //             }else if(data.status === 'error'){
+        //                 toastr.error(data.message);
+        //             }
+        //         },
+        //         error: function(data){
+        //             console.log(data);
+        //         }
+        //     })
+        // })
+
+        // move product to wishlist
+        $(document).on('click','.move_to_wishlist',function(e){
+            e.preventDefault();
+            let _that = $(this);
+            let id = _that.data('id');
+            _that.parents('.minicart-item').find('.remove_sidebar_product').trigger('click');
+
+            $.ajax({
+                method: 'GET',
+                url: "{{route('wishlist.store')}}",
+                data: {id:id},
+                success:function(data){
+                    if (data.status === 'success'){
+                        $('#wishlist_count').text(data.count);
+                        $('#mobile-wishlist_count').text(data.count);
+                        
+                        getCartCount();
+                        fetchSidebarCartProducts();
+                        toastr.success(data.message);
+                    } else if (data.status === 'error'){
+                        toastr.error(data.message);
+                    }
+                },
+                error: function(data){
+                    console.log(data);
+                }
+            });
+            
+        })
+        // $('.move_to_wishlist').on('click', function(e){
+        //     e.preventDefault();
+        //     let id = $(this).data('id');
+
+        //     $.ajax({
+        //         method: 'GET',
+        //         url: "{{route('wishlist.store')}}",
+        //         data: {id:id},
+        //         success:function(data){
+        //             if (data.status === 'success'){
+        //                 $('#wishlist_count').text(data.count)
+        //                 $('#mobile-wishlist_count').text(data.count)
+        //                 toastr.success(data.message);
+        //             } else if (data.status === 'error'){
+        //                 toastr.error(data.message);
+        //             }
+        //         },
+        //         error: function(data){
+        //             console.log(data);
+        //         }
+        //     });
+        //     $(this).parents('.minicart-item').find('.remove_sidebar_product').trigger('click');
+        // })
 
         // newsletter
         $('#newsletter').on('submit', function(e){
             e.preventDefault();
             let data = $(this).serialize();
+            console.log(data);
 
             $.ajax({
                 method: 'POST',
@@ -185,17 +350,16 @@
 
 
         $('.show_product_modal').on('click', function(){ 
-            debugger;
             let id = $(this).data('id');
 
             $.ajax({
                 mehtod: 'GET',
                 url: '{{ route("show-product-modal", ":id" ) }}'.replace(":id", id),
                 beforeSend: function(){
-                    $('.product-modal-content').html('<span class="loader"></span>')
+                    $('.product-details-inner').html('<span class="loader"></span>')
                 },
                 success: function(response){
-                    $('.product-modal-content').html(response)
+                    $('.product-details-inner').html(response)
                 },
                 error: function(xhr, status, error){
 

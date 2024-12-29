@@ -8,7 +8,7 @@
             </div>
             <div class="minicart-content-box">
                 <div class="minicart-item-wrapper">
-                    <ul>
+                    <ul class="">
                         @foreach (Cart::content() as $sidebarProduct)
                         <li class="minicart-item" id="mini_cart_{{$sidebarProduct->rowId}}">
                             <div class="minicart-thumb">
@@ -21,24 +21,41 @@
                                     <a href="{{route('product-detail', $sidebarProduct->options->slug)}}">{{$sidebarProduct->name}}</a>
                                 </h3>
                                 <p>
-                                    <span class="cart-quantity">{{$sidebarProduct->qty}}<strong>&times;</strong></span>
-                                    <span class="cart-price"> {{$settings->currency_icon}}{{$sidebarProduct->price}}</span>
+                                    <span class="cart-quantity">{{$sidebarProduct->qty}}<strong>&times;</strong>
+                                    </span>
+                                <span>{{$settings->currency_icon}}{{$sidebarProduct->price}}</span>
+                                <div>
+                                    <small>Variants total: {{ $settings->currency_icon }} {{$sidebarProduct->options->variants_total}}</small>
+                                </div>
+                                <div>
+                                    <!-- <a  
+                                        data-bs-toggle="tooltip"
+                                        title="Remove from the cart and move to wishlist" 
+                                        href="#"
+                                        class="move_to_wishlist" 
+                                        data-id="{{$sidebarProduct->id}}">
+                                        <i class="pe-7s-like"></i>
+                                    </a> -->
+                                </div>
+
+                                    <!-- <span class="cart-quantity">{{$sidebarProduct->qty}}<strong>&times;</strong></span>
+                                    <span class="cart-price"> {{$settings->currency_icon}}{{$sidebarProduct->price}}</span> -->
                                 </p>
                             </div>
-                            <button class="minicart-remove" data-id="{{$sidebarProduct->rowId}}"><i class="pe-7s-close"></i></button>
+                            <button class="minicart-remove remove_sidebar_product" data-id="{{$sidebarProduct->rowId}}"><i class="pe-7s-close"></i></button>
                         </li>
                         @endforeach
                         @if (Cart::content()->count() === 0)
-                        <li class="text-center">Cart Is Empty!</li>
+                        <li class="text-center">Oops, nothing here yet!</li>
                         @endif
                     </ul>
                 </div>
 
-                <div class="minicart-pricing-box {{Cart::content()->count() === 0 ? 'd-none': ''}}">
+                <div class="mini_cart_actions minicart-pricing-box {{Cart::content()->count() === 0 ? 'd-none': ''}}">
                     <ul>
                         <li>
                             <span>sub-total</span>
-                            <span><strong>{{$settings->currency_icon}}{{getCartTotal()}}</strong></span>
+                            <span><strong id="mini_cart_subtotal">{{$settings->currency_icon}}{{getCartTotal()}}</strong></span>
                         </li>
                         {{-- <li>
                             <span>Eco Tax (-2.00)</span>
@@ -55,7 +72,7 @@
                     </ul>
                 </div>
 
-                <div class="minicart-button {{Cart::content()->count() === 0 ? 'd-none': ''}}">
+                <div class="mini_cart_actions minicart-button {{Cart::content()->count() === 0 ? 'd-none': ''}}">
                     <a href="{{route('cart-details')}}"><i class="fa fa-shopping-cart"></i> View Cart</a>
                     <a href="{{route('user.checkout')}}"><i class="fa fa-share"></i> Checkout</a>
                 </div>

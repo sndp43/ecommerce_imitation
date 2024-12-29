@@ -28,10 +28,10 @@ class NewsletterController extends Controller
                 // send mail
                 Mail::to($existSubscriber->email)->send(new SubscriptionVerification($existSubscriber));
 
-                return response(['status' => 'success', 'message' => 'A verification link has been sent to your email please check']);
+                return response(['status' => 'success', 'message' => 'A link to verify your account has been sent. Check your email!']);
 
             }elseif($existSubscriber->is_verified == 1){
-                return response(['status' => 'error', 'message' => 'You already subscribed with this email!']);
+                return response(['status' => 'error', 'message' => 'You’ve already joined—no need to subscribe again!']);
             }
         }else {
             $subscriber = new NewsletterSubscriber();
@@ -46,7 +46,7 @@ class NewsletterController extends Controller
             // send mail
             Mail::to($subscriber->email)->send(new SubscriptionVerification($subscriber));
 
-            return response(['status' => 'success', 'message' => 'A verification link has been sent to your email please check']);
+            return response(['status' => 'success', 'message' => 'A link to verify your account has been sent. Check your email!']);
         }
 
 
@@ -60,10 +60,10 @@ class NewsletterController extends Controller
             $verify->verified_token = 'verified';
             $verify->is_verified = 1;
             $verify->save();
-            toastr('Email verification successfully', 'success', 'success');
+            toastr('Your email has been successfully verified!', 'success', 'success');
             return redirect()->route('home');
        }else {
-            toastr('Invalid token', 'error', 'Error');
+            toastr('Oops! The token is invalid.', 'error', 'Error');
             return redirect()->route('home');
        }
     }

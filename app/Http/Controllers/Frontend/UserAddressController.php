@@ -55,7 +55,7 @@ class UserAddressController extends Controller
         $address->address = $request->address;
         $address->save();
 
-        toastr('Created Successfully!', 'success', 'Success');
+        toastr('Your address has been added successfully!', 'success', 'Success');
 
         return redirect()->route('user.address.index');
 
@@ -75,7 +75,9 @@ class UserAddressController extends Controller
     public function edit(string $id)
     {
         $address = UserAddress::findOrFail($id);
-        return view('frontend.dashboard.address.edit', compact('address'));
+        $activeTab = 'address';
+        $activeAction = 'edit-address';
+        return view('frontend.dashboard.address.edit', compact('address','activeTab','activeAction'));
     }
 
     /**
@@ -106,7 +108,7 @@ class UserAddressController extends Controller
         $address->address = $request->address;
         $address->save();
 
-        toastr('Updated Successfully!', 'success', 'Success');
+        toastr('Your address has been updated successfully!', 'success', 'Success');
 
         return redirect()->route('user.address.index');
     }
@@ -115,10 +117,10 @@ class UserAddressController extends Controller
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
-    {
+    { 
         $address = UserAddress::findOrFail($id);
         $address->delete();
 
-        return response(['status' => 'success', 'message' => 'Deleted Successfully!']);
+        return response(['status' => 'success', 'message' => 'Address removed successfully!']);
     }
 }

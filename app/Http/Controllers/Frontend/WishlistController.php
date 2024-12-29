@@ -19,12 +19,12 @@ class WishlistController extends Controller
     public function addToWishlist(Request $request)
     {
         if(!Auth::check()){
-            return response(['status' => 'error', 'message' => 'login before add a product into wishlist!']);
+            return response(['status' => 'error', 'message' => 'Please sign in to add items to your wishlist!']);
         }
 
         $wishlistCount = Wishlist::where(['product_id' => $request->id, 'user_id' => Auth::user()->id])->count();
         if($wishlistCount > 0){
-            return response(['status' => 'error', 'message' => 'The product is already at wishlist!']);
+            return response(['status' => 'error', 'message' => 'This item is already on your wishlist!']);
         }
 
         $wishlist = new Wishlist();
@@ -34,7 +34,7 @@ class WishlistController extends Controller
 
         $count = Wishlist::where('user_id', Auth::user()->id)->count();
 
-        return response(['status' => 'success', 'message' => 'Product added into the wishlist!', 'count' => $count]);
+        return response(['status' => 'success', 'message' => 'This item is now on your wishlist!', 'count' => $count]);
     }
 
     public function destory(string $id)
@@ -46,9 +46,22 @@ class WishlistController extends Controller
         }
         $wishlistProducts->delete();
 
-        toastr('Product removed successfully', 'success', 'success');
+        toastr('Success! The product has been removed from your wishlist.', 'success', 'success');
 
         return redirect()->back();
 
+    }
+
+    public function destoryAjax(Request $request)
+    {
+        //echo $request->id; exit;
+        $wishlistProducts = Wishlist::where('id',  $request->id)->firstOrFail();
+        
+        if($wishlistProducts->user_id !== Auth::user()->id){
+            return response(['status' => 'error', 'message' => 'Failed to remove the product from your wishlist. Try again!']);
+        }
+        $wishlistProducts->delete();
+
+        return response(['status' => 'success', 'message' => 'Success! The product has been removed from your wishlist.']);
     }
 }

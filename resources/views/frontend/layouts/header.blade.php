@@ -80,8 +80,7 @@ $categories = \App\Models\Category::where('status', 1)
                                                         @if(count($category->subCategories) > 0)
                                                         <ul>
                                                             @foreach ($category->subCategories as $subCategory)
-                                                            <li><a href="{{route('products.index', ['subcategory' => $subCategory->slug])}}">{{$subCategory->name}}</a></li>
-                                                            
+                                                                <li><a href="{{route('products.index', ['subcategory' => $subCategory->slug])}}">{{$subCategory->name}}</a></li>
                                                             @endforeach
                                                         </ul>
                                                         @endif
@@ -153,7 +152,7 @@ $categories = \App\Models\Category::where('status', 1)
                                 <div class="header-search-container">
                                     <button class="search-trigger d-xl-none d-lg-block"><i class="pe-7s-search"></i></button>
                                     <form class="header-search-box d-lg-none d-xl-block" action="{{route('products.index')}}">
-                                        <input type="text" placeholder="Search entire store hire" class="header-search-field" value="{{request()->search}}">
+                                        <input type="text" placeholder="Search entire store here" class="header-search-field" value="{{request()->search}}">
                                         <button class="header-search-btn"><i class="pe-7s-search"></i></button>
                                     </form>
                                 </div>
@@ -165,23 +164,27 @@ $categories = \App\Models\Category::where('status', 1)
                                             </a>
                                             <ul class="dropdown-list">
 
-                                                @if (auth()->check())
+                                                        @if (auth()->check())
                                                             @if (auth()->user()->role === 'user')
-                                                            <li><a href="{{route('user.dashboard')}}">my account</a></li>
+                                                            <li><a href="{{route('user.dashboard')}}">My account</a></li>
                                                             @elseif (auth()->user()->role === 'vendor')
                                                             <li><a href="{{route('vendor.dashbaord')}}">Vendor Dashboard</a></li>
                                                             @elseif (auth()->user()->role === 'admin')
                                                             <li><a href="{{route('admin.dashbaord')}}">Admin Dashboard</a></li>
                                                             @endif
-                                                            @else
+                                                            <form method="POST" action="{{ route('logout') }}">
+                                                            @csrf
+                                                            <li><a href="{{route('logout')}}" onclick="event.preventDefault(); this.closest('form').submit();"><i class="fa fa-sign-out"></i> Logout</a></li>
+                                                            </form>
+                                                        @else
                                                             <li><a href="{{route('login')}}">login-register</a></li>
-                                                            @endif
+                                                        @endif
                                             </ul>
                                         </li>
                                         <li>
                                             <a href="{{route('user.wishlist.index')}}">
                                                 <i class="pe-7s-like"></i>
-                                                <div class="notification">@if (auth()->check())
+                                                <div id="wishlist_count" class="notification">@if (auth()->check())
                                                     {{\App\Models\Wishlist::where('user_id', auth()->user()->id)->count()}}
                                                     @else
                                                     0
@@ -191,7 +194,7 @@ $categories = \App\Models\Category::where('status', 1)
                                         <li>
                                             <a href="#" class="minicart-btn">
                                                 <i class="pe-7s-shopbag"></i>
-                                                <div class="notification">{{Cart::content()->count()}}</div>
+                                                <div class="notification" id="cart-count">{{Cart::content()->count()}}</div>
                                             </a>
                                         </li>
                                     </ul>
@@ -216,16 +219,25 @@ $categories = \App\Models\Category::where('status', 1)
                     <div class="col-12">
                         <div class="mobile-main-header">
                             <div class="mobile-logo">
-                                <a href="index.html">
-                                    <img src="{{asset('frontend/img/logo/logo.png')}}" alt="Brand Logo">
+                                <a href="{{url('/')}}">
+                                    <img src="{{asset($logoSetting->logo)}}" alt="Brand Logo">
                                 </a>
                             </div>
                             <div class="mobile-menu-toggler">
                                 <div class="mini-cart-wrap">
-                                    <a href="cart.html">
-                                        <i class="pe-7s-shopbag"></i>
-                                        <div class="notification">{{Cart::content()->count()}}</div>
-                                    </a>
+                                <a href="{{route('user.wishlist.index')}}">
+                                    <i class="pe-7s-like"></i>
+                                    <div id="mobile-wishlist_count" class="notification">@if (auth()->check())
+                                        {{\App\Models\Wishlist::where('user_id', auth()->user()->id)->count()}}
+                                        @else
+                                        0
+                                        @endif
+                                    </div>
+                                </a>
+                                <a href="#" class="minicart-btn ms-2">
+                                    <i class="pe-7s-shopbag"></i>
+                                    <div class="notification" id="mobile-cart-count">{{Cart::content()->count()}}</div>
+                                </a>
                                 </div>
                                 <button class="mobile-menu-btn">
                                     <span></span>
@@ -267,94 +279,27 @@ $categories = \App\Models\Category::where('status', 1)
                         <!-- mobile menu navigation start -->
                         <nav>
                             <ul class="mobile-menu">
-                                <li class="menu-item-has-children"><a href="index.html">Home</a>
-                                    <ul class="dropdown">
-                                        <li><a href="index.html">Home version 01</a></li>
-                                        <li><a href="index-2.html">Home version 02</a></li>
-                                        <li><a href="index-3.html">Home version 03</a></li>
-                                        <li><a href="index-4.html">Home version 04</a></li>
-                                        <li><a href="index-5.html">Home version 05</a></li>
-                                        <li><a href="index-6.html">Home version 06</a></li>
-                                    </ul>
+                                <li class="menu-item-has-children {{setActive(['home'])}}"><a href="{{url('/')}}" >Home</a>
+                                    
                                 </li>
-                                <li class="menu-item-has-children"><a href="#">pages</a>
+                                <li class="menu-item-has-children"><a href="#">Products</a>
                                     <ul class="megamenu dropdown">
-                                        <li class="mega-title menu-item-has-children"><a href="#">column 01</a>
+                                        @foreach ($categories as $category)
+                                            <li class="mega-title menu-item-has-children"><a href="{{route('products.index', ['category' => $category->slug])}}">{{$category->name}}</a>
+                                            @if(count($category->subCategories) > 0)
                                             <ul class="dropdown">
-                                                <li><a href="shop.html">shop grid left sidebar</a></li>
-                                                <li><a href="shop-grid-right-sidebar.html">shop grid right sidebar</a></li>
-                                                <li><a href="shop-list-left-sidebar.html">shop list left sidebar</a></li>
-                                                <li><a href="shop-list-right-sidebar.html">shop list right sidebar</a></li>
+                                                @foreach ($category->subCategories as $subCategory)
+                                                    <li><a href="{{route('products.index', ['subcategory' => $subCategory->slug])}}">{{$subCategory->name}}</a></li>
+                                                @endforeach
                                             </ul>
-                                        </li>
-                                        <li class="mega-title menu-item-has-children"><a href="#">column 02</a>
-                                            <ul class="dropdown">
-                                                <li><a href="product-details.html">product details</a></li>
-                                                <li><a href="product-details-affiliate.html">product details affiliate</a></li>
-                                                <li><a href="product-details-variable.html">product details variable</a></li>
-                                                <li><a href="privacy-policy.html">privacy policy</a></li>
-                                            </ul>
-                                        </li>
-                                        <li class="mega-title menu-item-has-children"><a href="#">column 03</a>
-                                            <ul class="dropdown">
-                                                <li><a href="cart.html">cart</a></li>
-                                                <li><a href="checkout.html">checkout</a></li>
-                                                <li><a href="compare.html">compare</a></li>
-                                                <li><a href="wishlist.html">wishlist</a></li>
-                                            </ul>
-                                        </li>
-                                        <li class="mega-title menu-item-has-children"><a href="#">column 04</a>
-                                            <ul class="dropdown">
-                                                <li><a href="my-account.html">my-account</a></li>
-                                                <li><a href="login-register.html">login-register</a></li>
-                                                <li><a href="about-us.html">about us</a></li>
-                                                <li><a href="contact-us.html">contact us</a></li>
-                                            </ul>
-                                        </li>
+                                            @endif
+                                            </li>        
+                                        @endforeach
                                     </ul>
                                 </li>
-                                <li class="menu-item-has-children "><a href="#">shop</a>
-                                    <ul class="dropdown">
-                                        <li class="menu-item-has-children"><a href="#">shop grid layout</a>
-                                            <ul class="dropdown">
-                                                <li><a href="shop.html">shop grid left sidebar</a></li>
-                                                <li><a href="shop-grid-right-sidebar.html">shop grid right sidebar</a></li>
-                                                <li><a href="shop-grid-full-3-col.html">shop grid full 3 col</a></li>
-                                                <li><a href="shop-grid-full-4-col.html">shop grid full 4 col</a></li>
-                                            </ul>
-                                        </li>
-                                        <li class="menu-item-has-children"><a href="#">shop list layout</a>
-                                            <ul class="dropdown">
-                                                <li><a href="shop-list-left-sidebar.html">shop list left sidebar</a></li>
-                                                <li><a href="shop-list-right-sidebar.html">shop list right sidebar</a></li>
-                                                <li><a href="shop-list-full-width.html">shop list full width</a></li>
-                                            </ul>
-                                        </li>
-                                        <li class="menu-item-has-children"><a href="#">products details</a>
-                                            <ul class="dropdown">
-                                                <li><a href="product-details.html">product details</a></li>
-                                                <li><a href="product-details-affiliate.html">product details affiliate</a></li>
-                                                <li><a href="product-details-variable.html">product details variable</a></li>
-                                                <li><a href="product-details-group.html">product details group</a></li>
-                                            </ul>
-                                        </li>
-                                    </ul>
+                                <li class="menu-item-has-children"><a class="{{setActive(['about'])}}" href="{{route('about')}}">About us</a>
                                 </li>
-                                <li class="menu-item-has-children "><a href="#">Blog</a>
-                                    <ul class="dropdown">
-                                        <li><a href="blog-left-sidebar.html">blog left sidebar</a></li>
-                                        <li><a href="blog-list-left-sidebar.html">blog list left sidebar</a></li>
-                                        <li><a href="blog-right-sidebar.html">blog right sidebar</a></li>
-                                        <li><a href="blog-list-right-sidebar.html">blog list right sidebar</a></li>
-                                        <li><a href="blog-grid-full-width.html">blog grid full width</a></li>
-                                        <li><a href="blog-details.html">blog details</a></li>
-                                        <li><a href="blog-details-left-sidebar.html">blog details left sidebar</a></li>
-                                        <li><a href="blog-details-audio.html">blog details audio</a></li>
-                                        <li><a href="blog-details-video.html">blog details video</a></li>
-                                        <li><a href="blog-details-image.html">blog details image</a></li>
-                                    </ul>
-                                </li>
-                                <li><a href="contact-us.html">Contact us</a></li>
+                                <li><a class="{{setActive(['contact'])}}" href="{{route('contact')}}">Contact us</a></li>
                             </ul>
                         </nav>
                         <!-- mobile menu navigation end -->
@@ -382,9 +327,22 @@ $categories = \App\Models\Category::where('status', 1)
                                         <i class="fa fa-angle-down"></i>
                                     </a>
                                     <div class="dropdown-menu" aria-labelledby="myaccount">
-                                        <a class="dropdown-item" href="my-account.html">my account</a>
-                                        <a class="dropdown-item" href="login-register.html"> login</a>
-                                        <a class="dropdown-item" href="login-register.html">register</a>
+                                    @if (auth()->check())
+                                        @if (auth()->user()->role === 'user')
+                                        <a class="dropdown-item" href="{{route('user.dashboard')}}">My profile</a>
+                                        @elseif (auth()->user()->role === 'vendor')
+                                        <a class="dropdown-item" href="{{route('vendor.dashbaord')}}"> Vendor Dashboard</a>
+                                        @elseif (auth()->user()->role === 'admin')
+                                        <a class="dropdown-item" href="{{route('vendor.dashbaord')}}"> Admin</a>
+                                        @endif
+
+                                        <form method="POST" action="{{ route('logout') }}">
+                                        @csrf
+                                            <a class="dropdown-item" href="{{route('logout')}}" onclick="event.preventDefault(); this.closest('form').submit();"><i class="fa fa-sign-out"></i> Logout</a>
+                                        </form>
+                                    @else
+                                        <a class="dropdown-item" href="{{route('login')}}">login-register</a>
+                                    @endif
                                     </div>
                                 </div>
                             </li>

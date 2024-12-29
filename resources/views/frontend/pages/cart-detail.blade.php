@@ -5,138 +5,156 @@
 @endsection
 
 @section('content')
-    <!--============================
-        BREADCRUMB START
-    ==============================-->
-    <section id="wsus__breadcrumb">
-        <div class="wsus_breadcrumb_overlay">
-            <div class="container">
-                <div class="row">
-                    <div class="col-12">
-                        <h4>cart View</h4>
-                        <ul>
-                            <li><a href="#">home</a></li>
-                            <li><a href="#">peoduct</a></li>
-                            <li><a href="#">cart view</a></li>
-                        </ul>
+    <!-- breadcrumb area start -->
+    <div class="breadcrumb-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadcrumb-wrap">
+                        <nav aria-label="breadcrumb">
+                            <ul class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="{{url('/')}}"><i class="fa fa-home"></i></a></li>
+                                <li class="breadcrumb-item active" aria-current="page">cart</li>
+                            </ul>
+                        </nav>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
-    <!--============================
-        BREADCRUMB END
-    ==============================-->
-
+    </div>
+    <!-- breadcrumb area end -->
 
     <!--============================
         CART VIEW PAGE START
     ==============================-->
-    <section id="wsus__cart_view">
-        <div class="container">
-            <div class="row">
-                <div class="col-xl-9">
-                    <div class="wsus__cart_list">
-                        <div class="table-responsive">
-                            <table>
-                                <tbody>
-                                    <tr class="d-flex">
-                                        <th class="wsus__pro_img">
-                                            product item
-                                        </th>
-
-                                        <th class="wsus__pro_name">
-                                            product details
-                                        </th>
-
-                                        <th class="wsus__pro_tk">
-                                           unit price
-                                        </th>
-
-                                        <th class="wsus__pro_tk">
-                                            total
-                                        </th>
-
-                                        <th class="wsus__pro_select">
-                                            quantity
-                                        </th>
-
-
-
-                                        <th class="wsus__pro_icon">
-                                            <a href="#" class="common_btn clear_cart">clear cart</a>
-                                        </th>
-                                    </tr>
-                                    @foreach ($cartItems as $item)
-                                    <tr class="d-flex">
-                                        <td class="wsus__pro_img"><img src="{{asset($item->options->image)}}" alt="product"
-                                                class="img-fluid w-100">
-                                        </td>
-
-                                        <td class="wsus__pro_name">
-                                            <p>{!! $item->name !!}</p>
-                                            @foreach ($item->options->variants as $key => $variant)
-                                                <span>{{$key}}: {{$variant['name']}} ({{$settings->currency_icon.$variant['price']}})</span>
-                                            @endforeach
-
-                                        </td>
-
-                                        <td class="wsus__pro_tk">
-                                            <h6>{{$settings->currency_icon.$item->price}}</h6>
-                                        </td>
-
-                                        <td class="wsus__pro_tk">
-                                            <h6 id="{{$item->rowId}}">{{$settings->currency_icon.($item->price + $item->options->variants_total) * $item->qty}}</h6>
-                                        </td>
-
-                                        <td class="wsus__pro_select">
-                                            <div class="product_qty_wrapper">
-                                                <button class="btn btn-danger product-decrement">-</button>
-                                                <input class="product-qty" data-rowid="{{$item->rowId}}" type="text" min="1" max="100" value="{{$item->qty}}" readonly />
-                                                <button class="btn btn-success product-increment">+</button>
+    <!-- cart main wrapper start -->
+    <div class="cart-main-wrapper section-padding">
+            <div class="container">
+                <div class="section-bg-color">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <!-- Cart Table Area -->
+                            <div class="cart-table table-responsive">
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th class="pro-thumbnail">Thumbnail</th>
+                                            <th class="pro-title">Product</th>
+                                            <th class="pro-price">Price</th>
+                                            <th class="pro-quantity">Quantity</th>
+                                            <th class="pro-subtotal">Total</th>
+                                            <th class="pro-remove"><a href="#" class="fa-inverse clear_cart"><i class="fa-inverse fa fa-trash"></i> clear cart</a></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($cartItems as $item)
+                                        <tr>
+                                            <td class="pro-thumbnail">
+                                                <a href="#">
+                                                    <img src="{{asset($item->options->image)}}" alt="product"
+                                                    class="img-fluid w-100">
+                                                </a>
+                                            </td>
+                                            <td class="pro-title">
+                                                <p>{!! $item->name !!}</p>
+                                                    @foreach ($item->options->variants as $key => $variant)
+                                                    <span>{{$key}}: {{$variant['name']}} ({{$settings->currency_icon.$variant['price']}})</span>
+                                                    @endforeach
+                                            </td>
+                                            <td class="pro-price">
+                                                <span><h6>{{$settings->currency_icon.$item->price}}</h6></span>
+                                            </td>
+                                            <td class="pro-quantity">
+                                            <div class="pro-qty">
+                                                <input 
+                                                data-skip = "true"
+                                                class="product-qty" 
+                                                data-rowid="{{$item->rowId}}" type="text" 
+                                                min="1" 
+                                                max="100" 
+                                                value="{{$item->qty}}" 
+                                                readonly>
                                             </div>
-                                        </td>
-
-                                        <td class="wsus__pro_icon">
-                                            <a href="{{route('cart.remove-product', $item->rowId)}}"><i class="far fa-times"></i></a>
-                                        </td>
-                                    </tr>
-                                    @endforeach
-
-                                    @if (count($cartItems) === 0)
+                                                <!-- <div class="product_qty_wrapper">
+                                                    <button class="btn btn-danger product-decrement"><i class="fa fa-minus"></i></button>
+                                                    <input class="product-qty" data-rowid="{{$item->rowId}}" type="text" min="1" max="100" value="{{$item->qty}}" readonly />
+                                                    <button class="btn btn-success product-increment"><i class="fa fa-plus"></i></button>
+                                                </div> -->
+                                            </td>
+                                            <td class="pro-subtotal">
+                                                <span><h6 id="{{$item->rowId}}">{{$settings->currency_icon.($item->price + $item->options->variants_total) * $item->qty}}</h6></span>
+                                            </td>
+                                            <td class="pro-remove">
+                                                <a href="{{route('cart.remove-product', $item->rowId)}}"><i class="fa fa-times"></i></a>
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                        @if (count($cartItems) === 0)
                                         <tr class="d-flex" >
                                             <td class="wsus__pro_icon" rowspan="2" style="width:100%">
                                                 Cart is empty!
                                             </td>
                                         </tr>
+                                        @endif
+                                    </tbody>
+                                </table>
+                            </div>
+                            <!-- Cart Update Option -->
+                            <div class="cart-update-option d-block d-md-flex justify-content-between">
+                                <div class="apply-coupon-wrapper">
+                                    <!-- <form action="#" method="post" class=" d-block d-md-flex">
+                                        <input type="text" placeholder="Enter Your Coupon Code" required />
+                                        <button class="btn btn-sqr">Apply Coupon</button>
+                                    </form> -->
 
-                                    @endif
-
-                                </tbody>
-                            </table>
+                                    <form id="coupon_form">
+                                        <input 
+                                        type="text" 
+                                        placeholder="Enter Your Coupon Code" name="coupon_code" 
+                                        value="{{session()->has('coupon') ? session()->get('coupon')['coupon_code'] : ''}}">
+                                        <button 
+                                        type="submit" 
+                                        class="btn btn-sqr">Apply Coupon</button>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-xl-3">
-                    <div class="wsus__cart_list_footer_button" id="sticky_sidebar">
-                        <h6>total cart</h6>
-                        <p>subtotal: <span id="sub_total">{{$settings->currency_icon}}{{getCartTotal()}}</span></p>
-                        <p>coupon(-): <span id="discount">{{$settings->currency_icon}}{{getCartDiscount()}}</span></p>
-                        <p class="total"><span>total:</span> <span id="cart_total">{{$settings->currency_icon}}{{getMainCartTotal()}}</span></p>
-
-                        <form id="coupon_form">
-                            <input type="text" placeholder="Coupon Code" name="coupon_code" value="{{session()->has('coupon') ? session()->get('coupon')['coupon_code'] : ''}}">
-                            <button type="submit" class="common_btn">apply</button>
-                        </form>
-                        <a class="common_btn mt-4 w-100 text-center" href="{{route('user.checkout')}}">checkout</a>
-                        <a class="common_btn mt-1 w-100 text-center" href="{{route('home')}}"><i
+                    <div class="row">
+                        <div class="col-lg-5 ml-auto">
+                            <!-- Cart Calculation Area -->
+                            <div class="cart-calculator-wrapper">
+                                <div class="cart-calculate-items">
+                                    <h6>Cart Totals</h6>
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <tr>
+                                                <td>Sub Total</td>
+                                                <td><span id="sub_total">{{$settings->currency_icon}}{{getCartTotal()}}</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Coupan (-)</td>
+                                                <td><span id="discount">{{$settings->currency_icon}}{{getCartDiscount()}}</span></td>
+                                            </tr>
+                                            <tr class="total">
+                                                <td>Total</td>
+                                                <td class="total-amount"><span id="cart_total">{{$settings->currency_icon}}{{getMainCartTotal()}}</span></td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                                <a class="btn btn-sqr mt-4 w-100 text-center" href="{{route('user.checkout')}}">Proceed Checkout</a>
+                                <a class="btn btn-sqr mt-1 w-100 text-center" href="{{route('home')}}"><i
                                 class="fab fa-shopify"></i> Keep Shopping</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
-    <section id="wsus__single_banner">
+        <!-- cart main wrapper end -->
+
+        <!-- <section id="wsus__single_banner">
         <div class="container">
             <div class="row">
                 <div class="col-xl-6 col-lg-6">
@@ -159,7 +177,7 @@
                 </div>
             </div>
         </div>
-    </section>
+        </section> -->
     <!--============================
           CART VIEW PAGE END
     ==============================-->
@@ -175,7 +193,7 @@
         });
 
         // incriment product quantity
-        $('.product-increment').on('click', function(){
+        $(document).on('click','.product-increment',function () {
             let input = $(this).siblings('.product-qty');
             let quantity = parseInt(input.val()) + 1;
             let rowId = input.data('rowid');
@@ -207,9 +225,8 @@
                 }
             })
         })
-
         // decrement product quantity
-        $('.product-decrement').on('click', function(){
+        $(document).on('click','.product-decrement',function () {
             let input = $(this).siblings('.product-qty');
             let quantity = parseInt(input.val()) - 1;
             let rowId = input.data('rowid');

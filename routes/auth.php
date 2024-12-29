@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Auth\SocialLoginRegisterController;
 use App\Http\Controllers\Auth\ConfirmablePasswordController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
 use App\Http\Controllers\Auth\EmailVerificationPromptController;
@@ -22,6 +23,42 @@ Route::middleware('guest')->group(function () {
 
     Route::get('login', [AuthenticatedSessionController::class, 'create'])
                 ->name('login');
+
+    Route::get('github/redirect', function () {
+                    return Socialite::driver('github')->redirect();
+                })->name('github.redirect');
+                 
+    // Route::get('github/callback', function () {
+    //                 $user = Socialite::driver('github')->user();
+    //                 dd($user);
+    //                 // $user->token
+    //             })->name('github.callback');
+
+    Route::get('github/callback', [SocialLoginRegisterController::class,'githubcallback'])->name('github.callback');
+
+    Route::get('google/redirect', function () {
+        return Socialite::driver('google')
+        ->scopes(['openid', 'profile', 'email']) // Ensure the email scope is included
+        ->redirect();
+        
+    })->name('google.redirect');
+
+    Route::get('google/callback', [SocialLoginRegisterController::class,'googlecallback'])->name('google.callback');
+
+    Route::get('facebook/redirect', function () {
+        return Socialite::driver('facebook')
+        ->scopes(['email']) // Request the email scope
+        ->redirect();
+    })->name('facebook.redirect');
+
+    Route::get('facebook/callback', [SocialLoginRegisterController::class,'facebookcallback'])->name('facebook.callback');
+
+    Route::get('x/redirect', function () {
+        return Socialite::driver('x')
+        ->redirect();
+    })->name('x.redirect');
+
+    Route::get('x/callback', [SocialLoginRegisterController::class,'twittercallback'])->name('twitter.callback');
 
     Route::post('login', [AuthenticatedSessionController::class, 'store']);
 

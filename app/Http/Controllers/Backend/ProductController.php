@@ -57,7 +57,6 @@ class ProductController extends Controller
             'seo_description' => ['nullable','max:250'],
             'status' => ['required']
         ]);
-        dd($request);
         /** Handle the image upload */
         $imagePath = $this->uploadImage($request, 'image', 'uploads/products');
 

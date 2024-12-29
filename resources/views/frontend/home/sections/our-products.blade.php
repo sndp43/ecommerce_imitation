@@ -61,6 +61,25 @@
                                                     <!-- <a href="" 
                                                     data-id="{{$product->id}}"
                                                     data-bs-toggle="tooltip" data-bs-placement="left" title="Add to wishlist"><i class="add_to_wishlist pe-7s-like"></i></a> -->
+
+                                                    <a  
+                                                    data-bs-toggle="tooltip"
+                                                    title="Add to Wishlist" 
+                                                    href="#"
+                                                    class="add_to_wishlist" 
+                                                    data-id="{{$product->id}}">
+                                                        <i class="pe-7s-like"></i>
+                                                    </a>
+                                                    <a href="#" 
+                                                        data-bs-toggle="modal"  
+                                                        data-bs-target="#quick_view" 
+                                                        class="show_product_modal" 
+                                                        data-id="{{ $product->id }}"
+                                                        data-bs-toggle="tooltip" 
+                                                        data-bs-placement="left" 
+                                                        title="Quick View">
+                                                        <i class="fa fa-eye"></i>
+                                                    </a>
                                                     <!-- {{-- <a href="compare.html" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to Compare"><i class="pe-7s-refresh-2"></i></a> --}} -->
                                                     <!-- <a href="#" 
                                                     data-id="{{ $product->id }}"
@@ -77,7 +96,12 @@
                                                     </a> -->
                                                 </div>
                                                 <div class="cart-hover">
-                                                    <button class="btn btn-cart add_cart">add to cart</button>
+                                                    <form class="shopping-cart-form">
+                                                    <input type="hidden" name="product_id" value="{{$product->id}}">
+                                                    <input class="" name="qty" type="hidden" min="1" max="100" value="1">
+                                                    <button class="btn btn-cart add_cart" type="submit">add to cart</button>
+                                                    </form>
+                                                    <!-- <button class="btn btn-cart add_cart">add to cart 1</button> -->
                                                 </div>
                                             </figure>
                                             <div class="product-caption text-center">

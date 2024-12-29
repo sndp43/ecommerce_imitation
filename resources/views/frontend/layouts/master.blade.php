@@ -23,6 +23,8 @@
     <link rel="stylesheet" href="{{asset('frontend/css/css_vendor/pe-icon-7-stroke.css')}}">
     <!-- Font-awesome CSS -->
     <link rel="stylesheet" href="{{asset('frontend/css/css_vendor/font-awesome.min.css')}}">
+    <!-- custom font style css -->
+    <link rel="stylesheet" href="{{asset('frontend/css/custom/custom-fa.css')}}">
     <!-- Slick slider css -->
     <link rel="stylesheet" href="{{asset('frontend/css/plugins/slick.min.css')}}">
     <!-- animate css -->
@@ -33,6 +35,7 @@
     <link rel="stylesheet" href="{{asset('frontend/css/plugins/jqueryui.min.css')}}">
     <!-- main style css -->
     <link rel="stylesheet" href="{{asset('frontend/css/style.css')}}">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     @if ($settings->layout === 'RTL')
         <link rel="stylesheet" href="{{ asset('frontend/css/rtl.css') }}">
     @endif
@@ -93,6 +96,17 @@
         MINI CART END
     ==============================-->
 
+    <!-- product pop up modal -->
+    <section class="product_popup_modal">
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content product-modal-content">
+
+                </div>
+            </div>
+        </div>
+    </section>
+
  <!-- JS
 ============================================ -->
 
@@ -118,10 +132,14 @@
     <script src="{{asset('frontend/js/plugins/ajaxchimp.js')}}"></script>
     <!-- contact form dynamic js -->
     <script src="{{asset('frontend/js/plugins/ajax-mail.js')}}"></script>
+   <!--Toaster js-->
+   <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <!-- google map api -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCfmCVTjRI007pC1Yk2o2d_EhgkjTsFVN8"></script>
     <!-- google map active js -->
     <script src="{{asset('frontend/js/plugins/google-map.js')}}"></script>
+      <!--Sweetalert js-->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <!--main/custom js-->
     <script src="{{ asset('frontend/js/main.js') }}"></script>

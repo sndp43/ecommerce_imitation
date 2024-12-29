@@ -137,10 +137,24 @@
             <div class="member-area-from-wrap">
                 <div class="row">
                     <!-- Login Content Start -->
+
                     <div class="col-lg-6">
                         <div class="login-reg-form-wrap">
-                            <h5>Sign In</h5>
-                            <form action="{{ route('login') }}" method="post">
+                            <div>
+                                <div class="single-input-item"> 
+                                <h5>Quick Sign In with Social Account</h5>
+                                </div>
+                                <div class="single-input-item social-link ">
+                                <!-- <a title="Login using Github" href="{{ route('github.redirect') }}" ><i class="fa fa-github"></i></a> -->
+                                <a title="Login using Google" href="{{ route('google.redirect') }}" ><i class="fa fa-google"></i></a>
+                                <a title="Login using Facebook" href="{{ route('facebook.redirect') }}" ><i class="fa fa-facebook"></i></a>
+                                <a title="Login using X" href="{{ route('x.redirect') }}" ><i class="fa fa-twitter"></i></a>
+                                </div>
+                            </div>
+                            <div class="single-input-item text-center"> <h5>Or</h5></div>
+                            <div>
+                                <h5>Sign In</h5>
+                                <form action="{{ route('login') }}" method="post">
                                 @csrf
                                 <div class="single-input-item">
                                     <input required id="email" type="email" value="{{old('email')}}" name="email" placeholder="Email">
@@ -161,10 +175,12 @@
                                         <a href="{{ route('password.request') }}" class="forget-pwd">Forget Password?</a>
                                     </div>
                                 </div>
-                                <div class="single-input-item">
+                                <div class="single-input-item widget-body social-link">
                                     <button class="btn btn-sqr"  type="submit">Login</button>
                                 </div>
-                            </form>
+                                
+                                </form>
+                            </div>
                         </div>
                     </div>
                     <!-- Login Content End -->
@@ -172,7 +188,8 @@
                     <!-- Register Content Start -->
                     <div class="col-lg-6">
                         <div class="login-reg-form-wrap sign-up-form">
-                            <h5>Singup Form</h5>
+                            <p>No account yet? Sign up now!</p>
+                            <h5>Create an Account</h5>
                             <form action="{{ route('register') }}" method="post">
                                 @csrf
                                 <div class="single-input-item">

@@ -72,7 +72,13 @@
                             <h6 class="widget-title-text">Signup for newsletter</h6>
                             <form class="newsletter-inner" action="" method="POST" id="newsletter">
                                 @csrf
-                                <input type="text" class="news-field newsletter_email" autocomplete="off" placeholder="Enter your email address">
+                                <input 
+                                type="text" 
+                                placeholder="Pleade enter your email address"
+                                name="email" 
+                                class="news-field newsletter_email"
+                                autocomplete="off"
+                                >
                                 <button type="submit" class="news-btn subscribe_btn" id="mc-submit">Subscribe</button>
                             </form>
                             <!-- mail-chimp-alerts Start -->

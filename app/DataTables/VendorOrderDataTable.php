@@ -25,7 +25,7 @@ class VendorOrderDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->addColumn('action', function($query){
-                $showBtn = "<a href='".route('vendor.orders.show', $query->id)."' class='btn btn-primary'><i class='far fa-eye'></i></a>";
+                $showBtn = "<a href='".route('vendor.orders.show', $query->id)."' class='btn btn-primary'><i class='fa fa-eye'></i></a>";
 
                 return $showBtn;
             })

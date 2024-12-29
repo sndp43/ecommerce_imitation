@@ -1,7 +1,7 @@
         <!-- featured product area start -->
 @php
     $popularCategories = $popularCategory ? json_decode($popularCategory->value, true) : [];
-    // dd($popularCategories)
+     //dd($popularCategories)
 @endphp
         <section class="feature-product section-padding">
             <div class="container">
@@ -9,7 +9,7 @@
                     <div class="col-12">
                         <!-- section title start -->
                         <div class="section-title text-center">
-                            <h2 class="title">featured products</h2>
+                            <h2 class="title">Popular Categories</h2>
                             <p class="sub-title">Add featured products to weekly lineup</p>
                         </div>
                         <!-- section title start -->
@@ -62,8 +62,29 @@
                                             <img class="pri-img" src="{{asset($item->thumb_image)}}" alt="product">
                                             <img class="sec-img" src="{{asset($item->thumb_image)}}" alt="product">
                                         </a>
+                                        <div class="button-group">
+                                                    <a  
+                                                    data-bs-toggle="tooltip"
+                                                    title="Add to Wishlist" 
+                                                    href="#"
+                                                    class="add_to_wishlist" 
+                                                    data-id="{{$item->id}}">
+                                                        <i class="pe-7s-like"></i>
+                                                    </a>
+                                                    <a href="#" 
+                                                        data-bs-toggle="modal"  data-bs-target="#quick_view" class="show_product_modal" 
+                                                        data-id="{{ $item->id }}"
+                                                        data-bs-toggle="tooltip" data-bs-placement="left" 
+                                                        title="Quick View">
+                                                        <i class="fa fa-eye"></i>
+                                                    </a>
+                                                </div>
                                         <div class="cart-hover">
-                                            <button class="btn btn-cart">add to cart</button>
+                                        <form class="shopping-cart-form">
+                                                    <input type="hidden" name="product_id" value="{{$item->id}}">
+                                                    <input class="" name="qty" type="hidden" min="1" max="100" value="1">
+                                                    <button class="btn btn-cart add_cart" type="submit">add to cart</button>
+                                                </form>
                                         </div>
                                     </figure>
                                     <div class="product-caption text-center">

@@ -15,7 +15,7 @@
             " alt="product" class="img-fluid w-100 img_2" />
         </a>
         <ul class="wsus__single_pro_icon">
-            <li><a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal" class="show_product_modal" data-id="{{ $product->id }}"><i class="far fa-eye"></i>advadvadvadvadv</a></li>
+            <li><a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal" class="show_product_modal" data-id="{{ $product->id }}"><i class="fa fa-eye"></i>advadvadvadvadv</a></li>
             <li><a href="" class="add_to_wishlist" data-id="{{$product->id}}"><i class="far fa-heart"></i></a></li>
             {{-- <li><a href="#"><i class="far fa-random"></i></a> --}}
         </ul>

@@ -242,7 +242,7 @@ textarea:focus {
   opacity: 1;
   visibility: visible;
   pointer-events: visible;
-  z-index: 99999999;
+  z-index: 1041;
   -webkit-animation: slideInDown 0.4s forwards;
   animation: slideInDown 0.4s forwards;
 }
@@ -2014,7 +2014,7 @@ textarea:focus {
   font-size: 50px;
   cursor: pointer;
   top: 0;
-  right: 375px;
+  left: 0;
   position: absolute;
 }
 .minicart-inner .minicart-close i {
@@ -2786,7 +2786,7 @@ textarea:focus {
 .custom-checkbox .custom-control-label:before,
 .custom-radio .custom-control-label:before {
   background-color: transparent;
-  border: 1px solid #ddd;
+  border: 4px solid #a4a4a4;
   border-radius: 0;
   height: 15px;
   top: 0;
@@ -2794,6 +2794,8 @@ textarea:focus {
   content: "";
   position: absolute;
   left: -1.5rem;
+  outline: 2px solid #a4a4a4;
+  outline-offset: 3px;
 }
 .custom-checkbox .custom-control-label:after,
 .custom-radio .custom-control-label:after {
@@ -3668,7 +3670,6 @@ textarea:focus {
   color: #555555;
   border: none;
   outline: none;
-  max-width: 80px;
   pointer-events: none;
 }
 .price-range-wrap .range-slider button.filter-btn {
@@ -4843,7 +4844,7 @@ blockquote {
   margin-bottom: 18px;
 }
 .product-details-des .pro-size .nice-select {
-  width: 100px;
+  width: 50%;
   height: 40px;
   line-height: 40px;
   border-radius: 40px;

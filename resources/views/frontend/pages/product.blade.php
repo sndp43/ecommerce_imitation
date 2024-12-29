@@ -8,21 +8,26 @@
         <!--============================
         BREADCRUMB START
     ==============================-->
-    <section id="wsus__breadcrumb">
-        <div class="wsus_breadcrumb_overlay">
-            <div class="container">
-                <div class="row">
-                    <div class="col-12">
-                        <h4>products</h4>
-                        <ul>
-                            <li><a href="#">home</a></li>
-                            <li><a href="#">peoduct</a></li>
-                        </ul>
+
+    <!-- breadcrumb area start -->
+    <div class="breadcrumb-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadcrumb-wrap">
+                        <nav aria-label="breadcrumb">
+                            <ul class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="{{url('/')}}"><i class="fa fa-home"></i></a></li>
+                                <li class="breadcrumb-item active" aria-current="page">products</li>
+                            </ul>
+                        </nav>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+    <!-- breadcrumb area end -->
+
     <!--============================
         BREADCRUMB END
     ==============================-->
@@ -31,168 +36,257 @@
     <!--============================
         PRODUCT PAGE START
     ==============================-->
-    <section id="wsus__product_page">
-        <div class="container">
-            <div class="row">
-                <div class="col-xl-12">
-                    <div class="wsus__pro_page_bammer">
-                        @if ($productpage_banner_section->banner_one->status == 1)
-                        <a href="{{$productpage_banner_section->banner_one->banner_url}}">
-                            <img class="img-gluid" src="{{asset($productpage_banner_section->banner_one->banner_image)}}" alt="">
-                        </a>
-                        @endif
-                    </div>
-                </div>
-                <div class="col-xl-3 col-lg-4">
-                    <div class="wsus__sidebar_filter ">
-                        <p>filter</p>
-                        <span class="wsus__filter_icon">
-                            <i class="far fa-minus" id="minus"></i>
-                            <i class="far fa-plus" id="plus"></i>
-                        </span>
-                    </div>
-                    <div class="wsus__product_sidebar" id="sticky_sidebar">
-                        <div class="accordion" id="accordionExample">
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="headingOne">
-                                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                        All Categories
-                                    </button>
-                                </h2>
-                                <div id="collapseOne" class="accordion-collapse collapse show"
-                                    aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                                    <div class="accordion-body">
-                                        <ul>
-                                            @foreach ($categories as $category)
 
-                                            <li><a href="{{route('products.index', ['category' => $category->slug])}}">{{$category->name}}</a></li>
-                                            @endforeach
-
-                                        </ul>
-                                    </div>
+    <!-- page main wrapper start -->
+    <div class="shop-main-wrapper section-padding">
+            <div class="container">
+                <div class="row">
+                    <!-- sidebar area start -->
+                    <div class="col-lg-3 order-2 order-lg-1">
+                        <aside class="sidebar-wrapper">
+                            <!-- single sidebar start -->
+                            <div class="sidebar-single">
+                                <h5 class="sidebar-title">All categories</h5>
+                                <div class="sidebar-body">
+                                    <ul class="shop-categories">
+                                    @foreach ($categories as $category)
+                                        <li><a href="{{route('products.index', ['category' => $category->slug])}}">{{$category->name}} </a></li>
+                                    @endforeach
+                                    </ul>
                                 </div>
                             </div>
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="headingTwo">
-                                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                        Price
-                                    </button>
-                                </h2>
-                                <div id="collapseTwo" class="accordion-collapse collapse show"
-                                    aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-                                    <div class="accordion-body">
-                                        <div class="price_ranger">
-                                            <form action="{{url()->current()}}">
-                                                @foreach (request()->query() as $key => $value)
+                            <!-- single sidebar end -->
+
+                            <!-- single sidebar start -->
+                            <div class="sidebar-single">
+                                <h5 class="sidebar-title">price</h5>
+                                <div class="sidebar-body">
+                                    <div class="price-range-wrap">
+                                        <div class="price-range" data-min="1" data-max="5000"></div>
+                                        <div class="range-slider">
+                                            <form action="{{url()->current()}}" class="d-flex align-items-center justify-content-between">
+                                            @foreach (request()->query() as $key => $value)
                                                 @if($key != 'range')
                                                     <input type="hidden" name="{{$key}}" value="{{$value}}" />
                                                 @endif
                                                 @endforeach
-                                                <input type="hidden" id="slider_range" name="range" class="flat-slider" />
-                                                <button type="submit" class="common_btn">filter</button>
+                                                <div class="price-input">
+                                                    <label for="amount">Price: </label>
+                                                    <input
+                                                    value="{{request()->query('range')}}"    
+                                                    data-currancy="{{$settings->currency_icon}}" 
+                                                    name="range" 
+                                                    type="hidden" 
+                                                    id="amount">
+                                                    <input 
+                                                    name="visible-range" 
+                                                    value="{{request()->query('visible-range')}}"
+                                                    type="text" 
+                                                    id="visible-amount">
+                                                </div>
+                                                <button type="submit" class="filter-btn">filter</button>
                                             </form>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            <!-- single sidebar end -->
 
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="headingThree3">
-                                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#collapseThree3" aria-expanded="false"
-                                        aria-controls="collapseThree">
-                                        brand
-                                    </button>
-                                </h2>
-                                <div id="collapseThree3" class="accordion-collapse collapse show"
-                                    aria-labelledby="headingThree3" data-bs-parent="#accordionExample">
-                                    <div class="accordion-body">
-                                        <ul>
-                                            @foreach ($brands  as $brand)
-
-                                            <li><a href="{{route('products.index', ['brand' => $brand->slug])}}">{{$brand->name}}</a></li>
-                                            @endforeach
-
-                                        </ul>
-                                    </div>
+                            <!-- single sidebar start -->
+                            <div class="sidebar-single">
+                                <h5 class="sidebar-title">Brand</h5>
+                                <div class="sidebar-body">
+                                <ul class="shop-categories">
+                                    @foreach ($brands  as $brand)
+                                        <li><a href="{{route('products.index', ['brand' => $brand->slug])}}">{{$brand->name}} </a></li>
+                                    @endforeach
+                                    </ul>
                                 </div>
                             </div>
+                            <!-- single sidebar end -->
 
-                        </div>
+                            <!-- single sidebar start -->
+                            <!-- <div class="sidebar-single">
+                                <h5 class="sidebar-title">color</h5>
+                                <div class="sidebar-body">
+                                    <ul class="checkbox-container categories-list">
+                                        <li>
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="customCheck12">
+                                                <label class="custom-control-label" for="customCheck12">black (20)</label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="customCheck13">
+                                                <label class="custom-control-label" for="customCheck13">red (6)</label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="customCheck14">
+                                                <label class="custom-control-label" for="customCheck14">blue (8)</label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="customCheck11">
+                                                <label class="custom-control-label" for="customCheck11">green (5)</label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="customCheck15">
+                                                <label class="custom-control-label" for="customCheck15">pink (4)</label>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div> -->
+                            <!-- single sidebar end -->
+
+                            <!-- single sidebar start -->
+                            <!-- <div class="sidebar-single">
+                                <h5 class="sidebar-title">size</h5>
+                                <div class="sidebar-body">
+                                    <ul class="checkbox-container categories-list">
+                                        <li>
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="customCheck111">
+                                                <label class="custom-control-label" for="customCheck111">S (4)</label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="customCheck222">
+                                                <label class="custom-control-label" for="customCheck222">M (5)</label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="customCheck333">
+                                                <label class="custom-control-label" for="customCheck333">L (7)</label>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="custom-control custom-checkbox">
+                                                <input type="checkbox" class="custom-control-input" id="customCheck444">
+                                                <label class="custom-control-label" for="customCheck444">XL (3)</label>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div> -->
+                            <!-- single sidebar end -->
+
+                            <!-- single sidebar start -->
+                            <!-- <div class="sidebar-banner">
+                                <div class="img-container">
+                                    <a href="#">
+                                        <img src="assets/img/banner/sidebar-banner.jpg" alt="">
+                                    </a>
+                                </div>
+                            </div> -->
+                            <!-- single sidebar end -->
+                        </aside>
                     </div>
-                </div>
-                <div class="col-xl-9 col-lg-8">
-                    <div class="row">
-                        <div class="col-xl-12 d-none d-md-block mt-md-4 mt-lg-0">
-                            <div class="wsus__product_topbar">
-                                <div class="wsus__product_topbar_left">
-                                    <div class="nav nav-pills" id="v-pills-tab" role="tablist"
-                                        aria-orientation="vertical">
-                                        <button class="nav-link {{session()->has('product_list_style') && session()->get('product_list_style') == 'grid' ? 'active' : ''}} {{!session()->has('product_list_style') ? 'active' : ''}} list-view" data-id="grid" id="v-pills-home-tab" data-bs-toggle="pill"
-                                            data-bs-target="#v-pills-home" type="button" role="tab"
-                                            aria-controls="v-pills-home" aria-selected="true">
-                                            <i class="fas fa-th"></i>
-                                        </button>
-                                        <button class="nav-link list-view {{session()->has('product_list_style') && session()->get('product_list_style') == 'list' ? 'active' : ''}}" data-id="list" id="v-pills-profile-tab" data-bs-toggle="pill"
-                                            data-bs-target="#v-pills-profile" type="button" role="tab"
-                                            aria-controls="v-pills-profile" aria-selected="false">
-                                            <i class="fas fa-list-ul"></i>
-                                        </button>
+                    <!-- sidebar area end -->
+
+                    <!-- shop main wrapper start -->
+                    <div class="col-lg-9 order-1 order-lg-2">
+                        <div class="shop-product-wrapper">
+                            <!-- shop product top wrap start -->
+                            <div class="shop-top-bar">
+                                <div class="row align-items-center">
+                                    <div class="col-lg-7 col-md-6 order-2 order-md-1">
+                                        <div class="top-bar-left">
+                                            <div class="product-view-mode">
+                                                <a class="active" href="#" data-target="grid-view" data-bs-toggle="tooltip" title="Grid View"><i class="fa fa-th"></i></a>
+                                                <a href="#" data-target="list-view" data-bs-toggle="tooltip" title="List View"><i class="fa fa-list"></i></a>
+                                            </div>
+                                            <!-- <div class="product-amount">
+                                                <p>Showing 1–16 of 21 results</p>
+                                            </div> -->
+                                        </div>
                                     </div>
-
+                                    <!-- <div class="col-lg-5 col-md-6 order-1 order-md-2">
+                                        <div class="top-bar-right">
+                                            <div class="product-short">
+                                                <p>Sort By : </p>
+                                                <select class="nice-select" name="sortby">
+                                                    <option value="trending">Relevance</option>
+                                                    <option value="sales">Name (A - Z)</option>
+                                                    <option value="sales">Name (Z - A)</option>
+                                                    <option value="rating">Price (Low &gt; High)</option>
+                                                    <option value="date">Rating (Lowest)</option>
+                                                    <option value="price-asc">Model (A - Z)</option>
+                                                    <option value="price-asc">Model (Z - A)</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div> -->
                                 </div>
-
                             </div>
-                        </div>
-                        <div class="tab-content" id="v-pills-tabContent">
-                            <div class="tab-pane fade {{session()->has('product_list_style') && session()->get('product_list_style') == 'grid' ? 'show active' : ''}} {{!session()->has('product_list_style') ? 'show active' : ''}}" id="v-pills-home" role="tabpanel"
-                                aria-labelledby="v-pills-home-tab">
-                                <div class="row">
-                                    @foreach ($products as $product)
-                                    <div class="col-xl-4 col-sm-6">
-                                        <div class="wsus__product_item">
-                                            <span class="wsus__new">{{productType($product->product_type)}}</span>
-                                            @if(checkDiscount($product))
-                                                <span class="wsus__minus">-{{calculateDiscountPercent($product->price, $product->offer_price)}}%</span>
-                                            @endif
-                                            <a class="wsus__pro_link" href="{{route('product-detail', $product->slug)}}">
-                                                <img src="{{asset($product->thumb_image)}}" alt="product" class="img-fluid w-100 img_1" />
-                                                <img src="
-                                                @if(isset($product->productImageGalleries[0]->image))
-                                                    {{asset($product->productImageGalleries[0]->image)}}
-                                                @else
-                                                    {{asset($product->thumb_image)}}
-                                                @endif
-                                                " alt="product" class="img-fluid w-100 img_2" />
+                            <!-- shop product top wrap start -->
+
+                            
+                            <!-- product item list wrapper start -->
+                            <div class="shop-product-wrap grid-view row mbn-30">
+                            @foreach ($products as $product)
+                                <!-- product single item start -->
+                                <div class="col-md-4 col-sm-6">
+                                    <!-- product grid start -->
+                                    <div class="product-item">
+                                        <figure class="product-thumb">
+                                            <a href="{{route('product-detail', $product->slug)}}">
+                                                <img 
+                                                    class="pri-img" 
+                                                    src="{{asset($product->thumb_image)}}" alt="product">
+                                                <img 
+                                                    class="sec-img" 
+                                                    src="@if(isset($product->productImageGalleries[0]->image))
+                                                        {{asset($product->productImageGalleries[0]->image)}}
+                                                    @else
+                                                        {{asset($product->thumb_image)}}
+                                                    @endif" 
+                                                alt="product">
                                             </a>
-                                            <ul class="wsus__single_pro_icon">
-                                                <li><a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal" class="show_product_modal" data-id="{{ $product->id }}"><i class="far fa-eye"></i></a></li>
-                                                <li><a href="#" class="add_to_wishlist" data-id="{{$product->id}}"><i class="far fa-heart"></i></a></li>
-                                                {{-- <li><a href="#"><i class="far fa-random"></i></a> --}}
-                                            </ul>
-                                            <div class="wsus__product_details">
-                                                <a class="wsus__category" href="#">{{$product->category->name}} </a>
-                                                <p class="wsus__pro_rating">
-
-                                                    @for ($i = 1; $i <= 5; $i++)
-                                                        @if ($i <= $product->ratings_avg_review)
-                                                        <i class="fas fa-star"></i>
-                                                        @else
-                                                        <i class="far fa-star"></i>
-                                                        @endif
-                                                    @endfor
-
-                                                    <span>({{$product->reviews_count}} review)</span>
-                                                </p>
-                                                <a class="wsus__pro_name" href="{{route('product-detail', $product->slug)}}">{{limitText($product->name, 53)}}</a>
+                                            <div class="product-badge">
+                                                <div class="product-label new">
+                                                    <span>{{productType($product->product_type)}}</span>
+                                                </div>
                                                 @if(checkDiscount($product))
-                                                    <p class="wsus__price">{{$settings->currency_icon}}{{$product->offer_price}} <del>{{$settings->currency_icon}}{{$product->price}}</del></p>
-                                                @else
-                                                    <p class="wsus__price">{{$settings->currency_icon}}{{$product->price}}</p>
+                                                <div class="product-label discount">
+                                                    <span>
+                                                        -{{calculateDiscountPercent($product->price, $product->offer_price)}}%
+                                                    </span>
+                                                </div>
                                                 @endif
-                                                <form class="shopping-cart-form">
+                                            </div>
+                                            <div class="button-group">
+                                            <a  
+                                                data-id="{{$product->id}}"    
+                                                href="#" 
+                                                class="add_to_wishlist"   
+                                                data-bs-toggle="tooltip"
+                                                data-bs-placement="left"
+                                                title="Add to wishlist"
+                                                tabindex="0">
+                                                <i class="pe-7s-like"></i>
+                                            </a>
+                                            <a href="#" 
+                                                data-bs-toggle="modal"  data-bs-target="#quick_view" class="show_product_modal" 
+                                                data-id="{{ $product->id }}"
+                                                data-bs-toggle="tooltip" data-bs-placement="left" 
+                                                title="Quick View">
+                                                <i class="fa fa-eye"></i>
+                                            </a>
+                                                
+                                            <!-- <a href="#" 
+                                                data-bs-toggle="modal" data-bs-target="#quick_view"><span data-bs-toggle="tooltip" data-bs-placement="left" title="Quick View"><i class="pe-7s-search"></i></span></a> -->
+                                            </div>
+                                            <div class="cart-hover">
+                                            <form class="shopping-cart-form">
                                                     <input type="hidden" name="product_id" value="{{$product->id}}">
                                                     @foreach ($product->variants as $variant)
                                                     @if ($variant->status != 0)
@@ -206,115 +300,161 @@
                                                     @endif
                                                     @endforeach
                                                     <input class="" name="qty" type="hidden" min="1" max="100" value="1" />
-                                                    <button class="add_cart" type="submit">add to cart</button>
+                                                    <button class="btn btn-cart add_cart" type="submit">add to cart</button>
                                                 </form>
+                                                <!-- <button class="btn btn-cart">add to cart</button> -->
+                                            </div>
+                                        </figure>
+                                        <div class="product-caption text-center">
+                                            <div class="product-identity">
+                                                <p class="manufacturer-name"><a href="{{route('product-detail', $product->slug)}}">{{limitText($product->brand->name, 53)}}</a></p>
+                                            </div>
+                                            <!-- <ul class="color-categories">
+                                                <li>
+                                                    <a class="c-lightblue" href="#" title="LightSteelblue"></a>
+                                                </li>
+                                                <li>
+                                                    <a class="c-darktan" href="#" title="Darktan"></a>
+                                                </li>
+                                                <li>
+                                                    <a class="c-grey" href="#" title="Grey"></a>
+                                                </li>
+                                                <li>
+                                                    <a class="c-brown" href="#" title="Brown"></a>
+                                                </li>
+                                            </ul> -->
+                                            <h6 class="product-name">
+                                                <a href="{{route('product-detail', $product->slug)}}">{{limitText($product->name, 53)}}</a>
+                                            </h6>
+                                            <div class="price-box">
+                                            @if(checkDiscount($product))
+                                                <span class="price-regular">{{$settings->currency_icon}}{{$product->offer_price}}</span>
+                                                <span class="price-old"><del>{{$settings->currency_icon}}{{$product->price}}</del></span>
+                                            @else
+                                                <span class="price-regular">{{$settings->currency_icon}}{{$product->price}}</span>
+                                            @endif
                                             </div>
                                         </div>
                                     </div>
-                                    @endforeach
+                                    <!-- product grid end -->
 
-
-                                </div>
-                            </div>
-
-                            <div class="tab-pane fade {{session()->has('product_list_style') && session()->get('product_list_style') == 'list' ? 'show active' : ''}}" id="v-pills-profile" role="tabpanel"
-                                aria-labelledby="v-pills-profile-tab">
-                                <div class="row">
-                                    @foreach ($products as $product)
-                                    <div class="col-xl-12">
-                                        <div class="wsus__product_item wsus__list_view">
-                                            <span class="wsus__new">{{productType($product->product_type)}}</span>
-                                            @if(checkDiscount($product))
-                                            <span class="wsus__minus">-{{calculateDiscountPercent($product->price, $product->offer_price)}}%</span>
-                                            @endif
-
-                                            <a class="wsus__pro_link" href="{{route('product-detail', $product->slug)}}">
-                                                <img src="{{asset($product->thumb_image)}}" alt="product"
-                                                    class="img-fluid w-100 img_1" />
-
-                                                <img src="
+                                    <!-- product list item end -->
+                                    <div class="product-list-item">
+                                        <figure class="product-thumb">
+                                            <a href="{{route('product-detail', $product->slug)}}">
+                                                <img 
+                                                class="pri-img" 
+                                                src="{{asset($product->thumb_image)}}" alt="product">
+                                                <img class="sec-img" src="
                                                 @if(isset($product->productImageGalleries[0]->image))
                                                     {{asset($product->productImageGalleries[0]->image)}}
                                                 @else
                                                     {{asset($product->thumb_image)}}
                                                 @endif
-                                                " alt="product" class="img-fluid w-100 img_2" />
+                                                " alt="product">
                                             </a>
-                                            <div class="wsus__product_details">
-                                                <a class="wsus__category" href="#">{{@$product->category->name}} </a>
-                                                <p class="wsus__pro_rating">
-
-
-                                                    @for ($i = 1; $i <= 5; $i++)
-                                                        @if ($i <= $product->reviews_avg_rating)
-                                                        <i class="fas fa-star"></i>
-                                                        @else
-                                                        <i class="far fa-star"></i>
-                                                        @endif
-                                                    @endfor
-
-                                                    <span>({{$product->reviews_count}} review)</span>
-                                                </p>
-                                                <a class="wsus__pro_name" href="{{route('product-detail', $product->slug)}}">{{$product->name}}</a>
-
+                                            <div class="product-badge">
+                                                <div class="product-label new">
+                                                    <span>{{productType($product->product_type)}}</span>
+                                                </div>
                                                 @if(checkDiscount($product))
-                                                <p class="wsus__price">{{$settings->currency_icon}}{{$product->offer_price}} <del>{{$settings->currency_icon}}{{$product->price}}</del></p>
-                                                @else
-                                                    <p class="wsus__price">{{$settings->currency_icon}}{{$product->price}}</p>
+                                                <div class="product-label discount">
+                                                    <span>{{calculateDiscountPercent($product->price, $product->offer_price)}}%</span>
+                                                </div>
                                                 @endif
-
-                                                <p class="list_description">{{$product->short_description}}</p>
-                                                <ul class="wsus__single_pro_icon">
-
-                                                    <form class="shopping-cart-form">
-                                                        <input type="hidden" name="product_id" value="{{$product->id}}">
-                                                        @foreach ($product->variants as $variant)
-                                                        @if ($variant->status != 0)
-                                                            <select class="d-none" name="variants_items[]">
-                                                                @foreach ($variant->productVariantItems as $variantItem)
-                                                                    @if ($variantItem->status != 0)
-                                                                        <option value="{{$variantItem->id}}" {{$variantItem->is_default == 1 ? 'selected' : ''}}>{{$variantItem->name}} (${{$variantItem->price}})</option>
-                                                                    @endif
-                                                                @endforeach
-                                                            </select>
-                                                        @endif
-                                                        @endforeach
-                                                        <input class="" name="qty" type="hidden" min="1" max="100" value="1" />
-                                                        <button class="add_cart_two mr-2" type="submit">add to cart</button>
-                                                    </form>
-                                                    <li><a href="#"><i class="far fa-heart"></i></a></li>
-                                                    {{-- <li><a href="#"><i class="far fa-random"></i></a> --}}
-                                                </ul>
-
                                             </div>
+                                            <div class="button-group">
+                                            <a  
+                                                data-id="{{$product->id}}"    
+                                                href="#" 
+                                                class="add_to_wishlist"   
+                                                data-bs-toggle="tooltip"
+                                                data-bs-placement="left"
+                                                title="Add to wishlist"
+                                                tabindex="0">
+                                                <i class="pe-7s-like"></i>
+                                            </a>
+                                                <!-- <a href="compare.html" data-bs-toggle="tooltip" data-bs-placement="left" title="Add to Compare"><i class="pe-7s-refresh-2"></i></a> -->
+                                                <!-- <a href="#" data-bs-toggle="modal" data-bs-target="#quick_view"><span data-bs-toggle="tooltip" data-bs-placement="left" title="Quick View"><i class="pe-7s-search"></i></span></a> -->
+                                            </div>
+                                            <div class="cart-hover">
+                                            <form class="shopping-cart-form">
+                                                    <input type="hidden" name="product_id" value="{{$product->id}}">
+                                                    @foreach ($product->variants as $variant)
+                                                    @if ($variant->status != 0)
+                                                        <select class="d-none" name="variants_items[]">
+                                                            @foreach ($variant->productVariantItems as $variantItem)
+                                                                @if ($variantItem->status != 0)
+                                                                    <option value="{{$variantItem->id}}" {{$variantItem->is_default == 1 ? 'selected' : ''}}>{{$variantItem->name}} (${{$variantItem->price}})</option>
+                                                                @endif
+                                                            @endforeach
+                                                        </select>
+                                                    @endif
+                                                    @endforeach
+                                                    <input class="" name="qty" type="hidden" min="1" max="100" value="1" />
+                                                    <button class="btn btn-cart add_cart" type="submit">add to cart</button>
+                                                </form>
+                                                <!-- <button class="btn btn-cart">add to cart</button> -->
+                                            </div>
+                                        </figure>
+                                        <div class="product-content-list">
+                                            <div class="manufacturer-name">
+                                                <a href="{{route('product-detail', $product->slug)}}">{{limitText($product->category->name, 53)}}</a>
+                                            </div>
+                                            <!-- <ul class="color-categories">
+                                                <li>
+                                                    <a class="c-lightblue" href="#" title="LightSteelblue"></a>
+                                                </li>
+                                                <li>
+                                                    <a class="c-darktan" href="#" title="Darktan"></a>
+                                                </li>
+                                                <li>
+                                                    <a class="c-grey" href="#" title="Grey"></a>
+                                                </li>
+                                                <li>
+                                                    <a class="c-brown" href="#" title="Brown"></a>
+                                                </li>
+                                            </ul> -->
+
+                                            <h5 class="product-name"><a href="{{route('product-detail', $product->slug)}}">{{limitText($product->name, 53)}}</a></h5>
+                                            <div class="price-box">
+                                            @if(checkDiscount($product))
+                                                <span class="price-regular">{{$settings->currency_icon}}{{$product->offer_price}}</span>
+                                                <span class="price-old"><del>{{$settings->currency_icon}}{{$product->price}}</del></span>
+                                            @else
+                                                <span class="price-regular">{{$settings->currency_icon}}{{$product->price}}</span>
+                                            @endif
+                                            </div>
+                                           {!!$product->long_description!!}
                                         </div>
                                     </div>
-                                    @endforeach
+                                    <!-- product list item end -->
                                 </div>
+                            @endforeach
                             </div>
+                            <!-- product item list wrapper end -->
+                           
+                            <!-- start pagination area -->
+                            <div class="paginatoin-area text-center">
+                                <ul class="pagination-box">
+                                @if ($products->hasPages())
+                                    {{$products->withQueryString()->links()}}
+                                @endif
+                                    <!-- <li><a class="previous" href="#"><i class="pe-7s-angle-left"></i></a></li>
+                                    <li class="active"><a href="#">1</a></li>
+                                    <li><a href="#">2</a></li>
+                                    <li><a href="#">3</a></li>
+                                    <li><a class="next" href="#"><i class="pe-7s-angle-right"></i></a></li> -->
+                                </ul>
+                            </div>
+                            <!-- end pagination area -->
                         </div>
                     </div>
-                    @if (count($products) === 0)
-                    <div class="text-center mt-5">
-                        <div class="card">
-                            <div class="card-body">
-                                <h2>Product not found!</h2>
-                            </div>
-                        </div>
-                    </div>
-                    @endif
-                </div>
-
-                <div class="col-xl-12 text-center">
-                    <div class="mt-5" style="display:flex; justify-content:center">
-                        @if ($products->hasPages())
-                            {{$products->withQueryString()->links()}}
-                        @endif
-                    </div>
+                    <!-- shop main wrapper end -->
                 </div>
             </div>
         </div>
-    </section>
+        <!-- page main wrapper end -->
     <!--============================
         PRODUCT PAGE END
     ==============================-->

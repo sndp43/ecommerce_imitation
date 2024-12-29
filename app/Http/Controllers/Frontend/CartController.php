@@ -21,7 +21,7 @@ class CartController extends Controller
 
         if(count($cartItems) === 0){
             Session::forget('coupon');
-            toastr('Please add some products in your cart for view the cart page', 'warning', 'Cart is empty!');
+            toastr('Add some items to your cart and enjoy shopping!', 'warning', 'Cart is empty!');
             return redirect()->route('home');
         }
 
@@ -125,14 +125,14 @@ class CartController extends Controller
     {
         Cart::destroy();
 
-        return response(['status' => 'success', 'message' => 'Cart cleared successfully']);
+        return response(['status' => 'success', 'message' => 'Cart emptied—ready for a fresh start!']);
     }
 
     /** Remove product form cart */
     public function removeProduct($rowId)
     {
         Cart::remove($rowId);
-        toastr('Product removed succesfully!', 'success', 'Success');
+        toastr('Success! The product has been removed from your cart.', 'success', 'Success');
         return redirect()->back();
     }
 
@@ -153,26 +153,26 @@ class CartController extends Controller
     {
         Cart::remove($request->rowId);
 
-        return response(['status' => 'success', 'message' => 'Product removed successfully!']);
+        return response(['status' => 'success', 'message' => 'Success! The item has been cleared from your cart.']);
     }
 
     /** Apply coupon */
     public function applyCoupon(Request $request)
     {
         if($request->coupon_code === null){
-            return response(['status' => 'error', 'message' => 'Coupon filed is required']);
+            return response(['status' => 'error', 'message' => 'Please Enter your coupon code to save more!']);
         }
 
         $coupon = Coupon::where(['code' => $request->coupon_code, 'status' => 1])->first();
 
         if($coupon === null){
-            return response(['status' => 'error', 'message' => 'Coupon not exist!']);
+            return response(['status' => 'error', 'message' => 'Oops! This coupon doesn’t seem to exist.']);
         }elseif($coupon->start_date > date('Y-m-d')){
-            return response(['status' => 'error', 'message' => 'Coupon not exist!']);
+            return response(['status' => 'error', 'message' => 'Oops! This coupon doesn’t seem to exist.']);
         }elseif($coupon->end_date < date('Y-m-d')){
-            return response(['status' => 'error', 'message' => 'Coupon is expired']);
+            return response(['status' => 'error', 'message' => 'Oops! This coupon has expired.']);
         }elseif($coupon->total_used >= $coupon->quantity){
-            return response(['status' => 'error', 'message' => 'you can not apply this coupon']);
+            return response(['status' => 'error', 'message' => 'Oops, looks like you can’t use this coupon.']);
         }
 
         if($coupon->discount_type === 'amount'){
@@ -191,7 +191,7 @@ class CartController extends Controller
             ]);
         }
 
-        return response(['status' => 'success', 'message' => 'Coupon applied successfully!']);
+        return response(['status' => 'success', 'message' => 'Coupon accepted—enjoy the savings!']);
     }
 
     /** Calculate coupon discount */

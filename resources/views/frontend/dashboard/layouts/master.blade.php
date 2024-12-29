@@ -138,6 +138,10 @@
     <script src="{{asset('frontend/js/plugins/google-map.js')}}"></script>
     <script src="//cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <!--main/custom js-->
+    <!--Sweetalert js-->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!--classycountdown js-->
+    
     <script src="{{ asset('frontend/js/main.js') }}"></script>
 
     <script>

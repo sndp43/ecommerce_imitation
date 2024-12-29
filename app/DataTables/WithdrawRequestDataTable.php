@@ -23,7 +23,7 @@ class WithdrawRequestDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->addColumn('action', function($query){
-                $showBtn = "<a href='".route('admin.withdraw.show', $query->id)."' class='btn btn-primary'><i class='far fa-eye'></i></a>";
+                $showBtn = "<a href='".route('admin.withdraw.show', $query->id)."' class='btn btn-primary'><i class='fa fa-eye'></i></a>";
 
                 return $showBtn;
             })

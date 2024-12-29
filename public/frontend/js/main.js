@@ -463,24 +463,26 @@
 	});
 
 	// quantity change js
-    $('.pro-qty').prepend('<span class="dec qtybtn">-</span>');
-    $('.pro-qty').append('<span class="inc qtybtn">+</span>');
-    $('.qtybtn').on('click', function () {
+    $('.pro-qty').prepend('<span class="dec qtybtn product-decrement">-</span>');
+    $('.pro-qty').append('<span class="inc qtybtn product-increment">+</span>');
+	$(document).on('click','.qtybtn',function () {
         var $button = $(this);
-        var oldValue = $button.parent().find('input').val();
-        if ($button.hasClass('inc')) {
-            var newVal = parseFloat(oldValue) + 1;
-        } else {
-            // Don't allow decrementing below zero
-            if (oldValue > 0) {
-                var newVal = parseFloat(oldValue) - 1;
-            } else {
-                newVal = 0;
-            }
-        }
-        $button.parent().find('input').val(newVal);
-	});
-
+		let skipFunction = $button.parent().find('input').data('skip') || false;
+		if(!skipFunction) {
+			var oldValue = $button.parent().find('input').val();
+			if ($button.hasClass('inc')) {
+				var newVal = parseFloat(oldValue) + 1;
+			} else {
+				// Don't allow decrementing below zero
+				if (oldValue > 0) {
+					var newVal = parseFloat(oldValue) - 1;
+				} else {
+					newVal = 0;
+				}
+			}
+			$button.parent().find('input').val(newVal);
+		}
+	})
 
 	// product view mode change js
     $('.product-view-mode a').on('click', function (e) {
@@ -496,21 +498,29 @@
 	// pricing filter
 	var rangeSlider = $(".price-range"),
 		amount = $("#amount"),
+		visibleAmount = $("#visible-amount"),
+		currancySymbol = amount.data('currancy'),
 		minPrice = rangeSlider.data('min'),
 		maxPrice = rangeSlider.data('max');
+
+		// Get pre-defined values or use the default min and max
+	var selectedRange = amount.val() ? amount.val().split(";") : [minPrice, maxPrice];
+	var selectedMin = parseInt(selectedRange[0], 10) || minPrice;
+	var selectedMax = parseInt(selectedRange[1], 10) || maxPrice;
+
 	rangeSlider.slider({
 		range: true,
 		min: minPrice,
 		max: maxPrice,
-		values: [minPrice, maxPrice],
+		values: [selectedMin, selectedMax],
 		slide: function (event, ui) {
-			amount.val("$" + ui.values[0] + " - $" + ui.values[1]);
+			visibleAmount.val(currancySymbol + ui.values[0] + "-" + currancySymbol + ui.values[1]);
+			amount.val(ui.values[0] + ";" + ui.values[1]);
 		}
 	});
-	amount.val(" $" + rangeSlider.slider("values", 0) +
-		" - $" + rangeSlider.slider("values", 1)
-	);
-
+	// Set initial values for inputs
+	visibleAmount.val(currancySymbol + selectedMin + "-" + currancySymbol + selectedMax);
+	amount.val(selectedMin + ";" + selectedMax);
 
 	// Checkout Page accordion
     $("#create_pwd").on("change", function () {

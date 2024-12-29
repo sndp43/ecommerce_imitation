@@ -192,7 +192,7 @@ class PaymentController extends Controller
 
     public function paypalCancel()
     {
-        toastr('Someting went wrong try agin later!', 'error', 'Error');
+        toastr('Whoops! Something went wrong. Please try again later.', 'error', 'Error');
         return redirect()->route('user.payment');
     }
 
@@ -222,7 +222,7 @@ class PaymentController extends Controller
 
             return redirect()->route('user.payment.success');
         }else {
-            toastr('Someting went wrong try agin later!', 'error', 'Error');
+            toastr('Whoops! Something went wrong. Please try again later.', 'error', 'Error');
             return redirect()->route('user.payment');
         }
 

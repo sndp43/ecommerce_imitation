@@ -15,15 +15,19 @@
         DASHBOARD START
       ==============================-->
     <section id="wsus__dashboard">
+    <div class="row ">
+        <div class="mt-2 mb-2 d-flex mb-2 mr-2 justify-content-end">
+            <button class="btn btn-sqr print_invoice">print</button>
+            <a class="btn btn-sqr ms-1 me-2" href="{{route('user.orders.index')}}">back</a>
+        </div>
+    </div>
         <div class="container-fluid">
-            @include('vendor.layouts.sidebar')
-
             <div class="row">
-                <div class="col-xl-9 col-xxl-10 col-lg-9 ms-auto">
+                <div class="col-xxl-10">
                     <div class="dashboard_content mt-2 mt-md-0">
-                        <h3><i class="far fa-user"></i> Order Details</h3>
+                        <h3 class="mb-4"><i class="fa fa-user"></i> Order Details</h3>
                         <div class="wsus__dashboard_profile">
-
+                        
                             <!--============================
                             INVOICE PAGE START
                         ==============================-->
@@ -145,11 +149,11 @@
                         ==============================-->
                         <div class="col">
                             <div class="mt-2 float-end">
-                                <button class="btn btn-warning print_invoice">print</button>
+                                <button class="btn btn-sqr print_invoice">print</button>
+                                <a class="btn btn-sqr ms-1" href="{{route('user.orders.index')}}">back</a>
                             </div>
                         </div>
                         </div>
-
                     </div>
                 </div>
             </div>

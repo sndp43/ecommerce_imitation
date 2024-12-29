@@ -24,7 +24,7 @@ class AuthenticatedSessionController extends Controller
      * Handle an incoming authentication request.
      */
     public function store(LoginRequest $request): RedirectResponse
-    {
+    {  
         Auth::guard('web')->logout();
         $request->session()->regenerateToken();
 
@@ -35,7 +35,7 @@ class AuthenticatedSessionController extends Controller
         if($request->user()->status === 'inactive'){
             Auth::guard('web')->logout();
             $request->session()->regenerateToken();
-            toastr('account has been banned from website please connect with support!', 'error', 'Account Banned!');
+            toastr('Your account has been suspended. Please contact support for assistance!', 'error', 'Account Banned!');
             return redirect('/');
         }
 
@@ -44,7 +44,7 @@ class AuthenticatedSessionController extends Controller
         }elseif($request->user()->role === 'vendor'){
             return redirect()->intended('/vendor/dashboard');
         }
-
+       
         return redirect()->intended(RouteServiceProvider::HOME);
     }
 

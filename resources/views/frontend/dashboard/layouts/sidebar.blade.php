@@ -11,7 +11,7 @@
                     @endif
                 <a href="{{route('user.orders.index')}}" class="{{setActive(['user.orders.*'])}}"><i class="fa fa-cart-arrow-down"></i>
                     Orders</a>
-                <a href="{{route('user.review.index')}}" class="{{setActive(['user.review.*'])}}"><i class="fa fa-star"></i> Reviews</a>
+                <!-- <a href="{{route('user.review.index')}}" class="{{setActive(['user.review.*'])}}"><i class="fa fa-star"></i> Reviews</a> -->
                 <!-- <a href="#download"><i class="fa fa-cloud-download"></i>
                     Download</a> -->
                 <!-- <a href="#payment-method"><i class="fa fa-credit-card"></i>
@@ -139,23 +139,15 @@
                 <div class="tab-pane fade {{$activeTab === 'address' ? 'active show' : ''}}"" id="address-edit" role="tabpanel">
                     <div class="myaccount-content">
                         <h5>Billing Address</h5>
-                        <!-- <address>
-                            <p><strong>Erik Jhonson</strong></p>
-                            <p>1355 Market St, Suite 900 <br>
-                                San Francisco, CA 94103</p>
-                            <p>Mobile: (123) 456-7890</p>
-                        </address>
-                        <a href="#" class="btn btn-sqr"><i class="fa fa-edit"></i>
-                            Edit Address</a> -->
                         <div class="row">
                             @php
                                 if(isset($addresses)) {
                             @endphp
-                                @foreach ($addresses as $address)
+                                @foreach ($addresses as $i => $address)
                                 <div class="col-xl-6">
                                 <div class="single-input-item">
                                 <address>
-                                    <h4>Billing Address</h4>
+                                    <h4>Address {{$i + 1}}</h4>
                                     <ul>
                                     <li><span>name :</span> {{$address->name}}</li>
                                     <li><span>Phone :</span> {{$address->phone}}</li>
@@ -168,8 +160,8 @@
                                     </ul>
                                 </address>
                                     <div class="wsus__address_btn">
-                                    <a href="{{route('user.address.edit', $address->id)}}" class="edit"><i class="fal fa-edit"></i> edit</a>
-                                    <a href="{{route('user.address.destroy', $address->id)}}" class="del delete-item"><i class="fal fa-trash-alt"></i> delete</a>
+                                        <a href="{{route('user.address.edit', $address->id)}}" class="edit btn btn-sqr"><i class="fa fa-edit"></i> edit</a>
+                                        <a href="{{route('user.address.destroy', $address->id)}}" class="btn btn-sqr del delete-item"><i class="fa fa-trash"></i> delete</a>
                                     </div>
                                 </div>
                                 </div>
@@ -180,6 +172,8 @@
                             @php
                                 if(isset($activeAction) && $activeAction === 'create-address') {
                             @endphp
+
+
                             <div class="row">
                                 <form action="{{route('user.address.store')}}" method="POST">
                                     @csrf
@@ -187,14 +181,22 @@
                                         <div class="col-lg-6">
                                             <div class="single-input-item">
                                                 <label>name <b>*</b></label>
-                                                <input type="text" placeholder="Name" name="name">
+                                                <input 
+                                                required
+                                                type="text" 
+                                                placeholder="Name"
+                                                name="name">
                                             </div>
                                         </div>
 
                                         <div class="col-lg-6">
                                             <div class="single-input-item">
                                                 <label>email</label>
-                                                <input type="email" placeholder="Email" name="email">
+                                                <input 
+                                                required
+                                                type="email" 
+                                                placeholder="Email" 
+                                                name="email">
                                             </div>
                                         </div>
                                     </div> 
@@ -202,18 +204,26 @@
                                         <div class="col-lg-6">
                                             <div class="single-input-item">
                                             <label>phone <b>*</b></label>
-                                            <input type="text" placeholder="Phone" name="phone">
+                                            <input 
+                                            required
+                                            type="text" 
+                                            placeholder="Phone" 
+                                            name="phone">
                                             </div>
                                         </div>
                                         <div class="col-lg-6">
                                             <div class="single-input-item">
-                                            <label>countery <b>*</b></label>
+                                            <label>country <b>*</b></label>
                                             <div class="wsus__topbar_select">
-                                                <select class="select_2" name="country">
-                                                <option>Select</option>
+                                                <select
+                                                required 
+                                                class="select_2" 
+                                                name="country">
+                                                <!-- <option>Select</option>
                                                     @foreach (config('settings.country_list') as $country)
                                                         <option value="{{$country}}">{{$country}}</option>
-                                                    @endforeach
+                                                    @endforeach -->
+                                                    <option value="India">India</option>
                                                 </select>
                                             </div>
                                             </div>
@@ -223,14 +233,22 @@
                                         <div class="col-lg-6">
                                             <div class="single-input-item">
                                             <label>State <b>*</b></label>
-                                            <input type="text" placeholder="State" name="state">
+                                            <input
+                                            required 
+                                            type="text" 
+                                            placeholder="State" 
+                                            name="state">
                                             </div>
                                         </div>
 
                                         <div class="col-lg-6">
                                             <div class="single-input-item">
                                             <label>City <b>*</b></label>
-                                            <input type="text" placeholder="City" name="city">
+                                            <input 
+                                            required
+                                            type="text" 
+                                            placeholder="City" 
+                                            name="city">
                                             </div>
                                         </div>
                                     </div>    
@@ -238,14 +256,22 @@
                                         <div class="col-lg-6">
                                             <div class="single-input-item">
                                             <label>zip code <b>*</b></label>
-                                            <input type="text" placeholder="Zip Code" name="zip">
+                                            <input 
+                                            required
+                                            type="text" 
+                                            placeholder="Zip Code" 
+                                            name="zip">
                                             </div>
                                         </div>
 
                                         <div class="col-lg-6">
                                             <div class="single-input-item">
                                             <label>Address <b>*</b></label>
-                                            <input type="text" placeholder="Address" name="address">
+                                            <input 
+                                            required
+                                            type="text" 
+                                            placeholder="Address" 
+                                            name="address">
                                             </div>
                                         </div>
                                     </div>  
@@ -256,24 +282,146 @@
                                     </div>
                                 </form>
                             </div>
+
+
                             @php
+                                } else if(isset($activeAction) && $activeAction === 'edit-address')
+                                {
+                            @endphp   
+                            <div class="row">
+                                <form action="{{route('user.address.update', $address->id)}}" method="POST">
+                                    @csrf
+                                    @method('PUT')
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="single-input-item">
+                                                <label>name <b>*</b></label>
+                                                <input 
+                                                value="{{$address->name}}"
+                                                required
+                                                type="text" 
+                                                placeholder="Name"
+                                                name="name">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6">
+                                            <div class="single-input-item">
+                                                <label>email</label>
+                                                <input 
+                                                value="{{$address->email}}"
+                                                required
+                                                type="email" 
+                                                placeholder="Email" 
+                                                name="email">
+                                            </div>
+                                        </div>
+                                    </div> 
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="single-input-item">
+                                            <label>phone <b>*</b></label>
+                                            <input 
+                                            value="{{$address->phone}}"
+                                            required
+                                            type="text" 
+                                            placeholder="Phone" 
+                                            name="phone">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="single-input-item">
+                                            <label>country <b>*</b></label>
+                                            <div class="wsus__topbar_select">
+                                                <select
+                                                required 
+                                                class="select_2" 
+                                                name="country">
+                                                <!-- <option>Select</option>
+                                                    @foreach (config('settings.country_list') as $country)
+                                                        <option value="{{$country}}">{{$country}}</option>
+                                                    @endforeach -->
+                                                    <option value="India">India</option>
+                                                </select>
+                                            </div>
+                                            </div>
+                                        </div>   
+                                    </div>   
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="single-input-item">
+                                            <label>State <b>*</b></label>
+                                            <input
+                                            value="{{$address->state}}"
+                                            required 
+                                            type="text" 
+                                            placeholder="State" 
+                                            name="state">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6">
+                                            <div class="single-input-item">
+                                            <label>City <b>*</b></label>
+                                            <input 
+                                            value="{{$address->city}}"
+                                            required
+                                            type="text" 
+                                            placeholder="City" 
+                                            name="city">
+                                            </div>
+                                        </div>
+                                    </div>    
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="single-input-item">
+                                            <label>zip code <b>*</b></label>
+                                            <input 
+                                            value="{{$address->zip}}"
+                                            required
+                                            type="text" 
+                                            placeholder="Zip Code" 
+                                            name="zip">
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-6">
+                                            <div class="single-input-item">
+                                            <label>Address <b>*</b></label>
+                                            <input 
+                                            value="{{$address->address}}"
+                                            required
+                                            type="text" 
+                                            placeholder="Address" 
+                                            name="address">
+                                            </div>
+                                        </div>
+                                    </div>  
+                                    <div class="row">
+                                        <div class="single-input-item">
+                                            <button type="submit" class="btn btn-sqr">Update</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            @php        
                                 }
                             @endphp
                             <div class="row">
-                            @php
-                                if(!isset($activeAction)) {
-                            @endphp
-                                <div class="single-input-item">
-                                <!-- <a href="{{route('user.address.create')}}" class="add_address_btn common_btn"><i class="far fa-plus"></i>
+                                @php
+                                    if(!isset($activeAction)) {
+                                @endphp
+                                    <div class="single-input-item">
+                                     <!-- <a href="{{route('user.address.create')}}" class="add_address_btn common_btn"><i class="far fa-plus"></i>
                                     add new address</a> -->
-                                <a href="{{route('user.address.create')}}" class="add_address_btn btn btn-sqr"><i class="fa fa-plus"></i> Add New Address</a>
-                                </div>
-                            @php
-                                }
-                            @endphp
+                                    <a href="{{route('user.address.create')}}" class="add_address_btn btn btn-sqr"><i class="fa fa-plus"></i> Add New Address</a>
+                                    </div>
+                                @php
+                                    }
+                                @endphp
                             </div>
-                </div>
-                </div>
+                        </div>
+                    </div>
                 </div>
                 <!-- Single Tab Content End -->
 
@@ -339,6 +487,7 @@
                     </div>
                 </div> <!-- Single Tab Content End -->
             </div>
-        </div> <!-- My Account Tab Content End -->
+        </div> 
+        <!-- My Account Tab Content End -->
     </div>
 </div> <!-- My Account Page End -->
