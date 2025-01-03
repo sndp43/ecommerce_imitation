@@ -79,7 +79,7 @@
                                 <select class="nice-select select_2" name="variants_items[]">
                                     @foreach ($variant->productVariantItems as $variantItem)
                                         @if ($variantItem->status != 0)
-                                            <option value="{{$variantItem->id}}" {{$variantItem->is_default == 1 ? 'selected' : ''}}>{{$variantItem->name}} (${{$variantItem->price}})</option>
+                                            <option value="{{$variantItem->id}}" {{$variantItem->is_default == 1 ? 'selected' : ''}}>{{$variantItem->name}} ({{$settings->currency_icon}}{{$variantItem->price}})</option>
                                         @endif
                                     @endforeach
                                 </select>

@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Session;
 class FrontendProductController extends Controller
 {
     public function productsIndex(Request $request)
-    {
+    {   //dd($request);
         if($request->has('category')){
             $category = Category::where('slug', $request->category)->firstOrFail();
             $products = Product::withAvg('reviews', 'rating')->withCount('reviews')
@@ -96,7 +96,8 @@ class FrontendProductController extends Controller
                     ->orWhere('long_description', 'like', '%'.$request->search.'%')
                     ->orWhereHas('category', function($query) use ($request){
                         $query->where('name', 'like', '%'.$request->search.'%')
-                            ->orWhere('long_description', 'like', '%'.$request->search.'%');
+                            ->orWhere('long_description', 'like', '%'.$request->search.'%')
+                            ->orWhere('short_description', 'like', '%'.$request->search.'%');
                     });
             })
             ->paginate(12);
@@ -107,13 +108,14 @@ class FrontendProductController extends Controller
             ->where(['status' => 1, 'is_approved' => 1])->orderBy('id', 'DESC')->paginate(12);
         }
 
+        $maxPrice = Product::max('price');
         $categories = Category::where(['status' => 1])->get();
         $brands = Brand::where(['status' => 1])->get();
         // banner ad
         $productpage_banner_section = Adverisement::where('key', 'productpage_banner_section')->first();
         $productpage_banner_section = json_decode($productpage_banner_section?->value);
 
-        return view('frontend.pages.product', compact('products', 'categories', 'brands', 'productpage_banner_section'));
+        return view('frontend.pages.product', compact('products', 'categories', 'brands', 'productpage_banner_section','maxPrice'));
     }
     /** Show product detail page */
     public function showProduct(string $slug)

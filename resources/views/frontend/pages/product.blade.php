@@ -62,7 +62,7 @@
                                 <h5 class="sidebar-title">price</h5>
                                 <div class="sidebar-body">
                                     <div class="price-range-wrap">
-                                        <div class="price-range" data-min="1" data-max="5000"></div>
+                                        <div class="price-range" data-min="1" data-max="{{$maxPrice}}"></div>
                                         <div class="range-slider">
                                             <form action="{{url()->current()}}" class="d-flex align-items-center justify-content-between">
                                             @foreach (request()->query() as $key => $value)
@@ -307,7 +307,7 @@
                                         </figure>
                                         <div class="product-caption text-center">
                                             <div class="product-identity">
-                                                <p class="manufacturer-name"><a href="{{route('product-detail', $product->slug)}}">{{limitText($product->brand->name, 53)}}</a></p>
+                                                <p class="manufacturer-name"><a href="{{route('products.index', ['brand' => $product->brand->slug])}}">{{limitText($product->brand->name, 53)}}</a></p>
                                             </div>
                                             <!-- <ul class="color-categories">
                                                 <li>
@@ -399,7 +399,7 @@
                                         </figure>
                                         <div class="product-content-list">
                                             <div class="manufacturer-name">
-                                                <a href="{{route('product-detail', $product->slug)}}">{{limitText($product->category->name, 53)}}</a>
+                                                <a href="{{route('products.index', ['brand' => $product->brand->slug])}}">{{limitText($product->brand->name, 53)}}</a>
                                             </div>
                                             <!-- <ul class="color-categories">
                                                 <li>

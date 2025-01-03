@@ -152,7 +152,11 @@ $categories = \App\Models\Category::where('status', 1)
                                 <div class="header-search-container">
                                     <button class="search-trigger d-xl-none d-lg-block"><i class="pe-7s-search"></i></button>
                                     <form class="header-search-box d-lg-none d-xl-block" action="{{route('products.index')}}">
-                                        <input type="text" placeholder="Search entire store here" class="header-search-field" value="{{request()->search}}">
+                                        <input 
+                                            type="text" 
+                                            name="search" 
+                                            placeholder="Search entire store here" class="header-search-field" 
+                                            value="{{request()->search}}">
                                         <button class="header-search-btn"><i class="pe-7s-search"></i></button>
                                     </form>
                                 </div>
