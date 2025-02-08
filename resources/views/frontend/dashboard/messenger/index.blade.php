@@ -207,6 +207,7 @@
 
                     },
                     error: function(xhr, status, error) {
+                       toastr.remove();
                        toastr.error(xhr.responseJSON.message);
                        $('.send-button').prop('disabled', false);
                        formSubmitting = false;

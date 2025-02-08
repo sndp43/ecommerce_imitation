@@ -214,9 +214,10 @@
 
                         renderCartSubTotal()
                         calculateCouponDescount()
-
+                        toastr.remove();
                         toastr.success(data.message)
                     }else if (data.status === 'error'){
+                        toastr.remove();
                         toastr.error(data.message)
                     }
                 },
@@ -252,9 +253,10 @@
 
                         renderCartSubTotal()
                         calculateCouponDescount()
-
+                        toastr.remove();
                         toastr.success(data.message)
                     }else if (data.status === 'error'){
+                        toastr.remove();
                         toastr.error(data.message)
                     }
                 },
@@ -320,9 +322,11 @@
                 data: formData,
                 success: function(data) {
                    if(data.status === 'error'){
+                    toastr.remove();
                     toastr.error(data.message)
                    }else if (data.status === 'success'){
                     calculateCouponDescount()
+                    toastr.remove();
                     toastr.success(data.message)
                    }
                 },

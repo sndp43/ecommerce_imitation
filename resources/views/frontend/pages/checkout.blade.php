@@ -404,10 +404,13 @@
         $('#submitCheckoutForm').on('click', function(e){
             e.preventDefault();
             if($('#shipping_method_id').val() == ""){
+                toastr.remove();
                 toastr.error('Shipping method is requred');
             }else if ($('#shipping_address_id').val() == ""){
+                toastr.remove();
                 toastr.error('Shipping address is requred');
             }else if (!$('.agree_term').prop('checked')){
+                toastr.remove();
                 toastr.error('You have to agree website terms and conditions');
             }else {
                 $.ajax({

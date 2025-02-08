@@ -207,6 +207,7 @@
                     },
                     success: function(data){
                         if(data.status == 'success'){
+                            toastr.remove();
                             toastr.success(data.message);
                             $('#contact-form')[0].reset();
                             $('#form-submit').text('send now')

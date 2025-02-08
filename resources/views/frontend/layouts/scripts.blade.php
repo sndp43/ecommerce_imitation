@@ -73,8 +73,10 @@
                             const params = new URLSearchParams(formData);
                             removeFromWishlist(wishlistId);
                         }
+                        toastr.remove()
                         toastr.success(data.message);
                     }else if (data.status === 'error'){
+                        toastr.remove()
                         toastr.error(data.message);
                     }
                 },
@@ -96,6 +98,7 @@
                         //update the html 
                          $("#"+wishlistId).remove();   
                     }else if (data.status === 'error'){
+                        toastr.remove()
                         toastr.error(data.message);
                     }
                 },
@@ -188,6 +191,7 @@
                         $('.minicart-item-wrapper').html(
                             '<ul><li class="text-center">Oops, nothing here yet!</li></ul>');
                     }
+                    toastr.remove()
                     toastr.success(data.message)
                     getCartCount()
                 },
@@ -225,8 +229,10 @@
                     if(data.status === 'success'){
                         $('#wishlist_count').text(data.count)
                         $('#mobile-wishlist_count').text(data.count)
+                        toastr.remove()
                         toastr.success(data.message);
                     }else if(data.status === 'error'){
+                        toastr.remove()
                         toastr.error(data.message);
                     }
                 },
@@ -276,8 +282,10 @@
                         
                         getCartCount();
                         fetchSidebarCartProducts();
+                        toastr.remove()
                         toastr.success(data.message);
                     } else if (data.status === 'error'){
+                        toastr.remove()
                         toastr.error(data.message);
                     }
                 },
@@ -328,11 +336,13 @@
                     if(data.status === 'success'){
                         $('.subscribe_btn').text('Subscribe');
                         $('.newsletter_email').val('');
+                        toastr.remove()
                         toastr.success(data.message);
 
                     }else if(data.status === 'error'){
 
                         $('.subscribe_btn').text('Subscribe');
+                        toastr.remove()
                         toastr.error(data.message);
                     }
                 },
@@ -340,6 +350,7 @@
                     let errors = data.responseJSON.errors;
                     if(errors){
                         $.each(errors, function(key, value){
+                            toastr.remove()
                             toastr.error(value);
                         })
                     }

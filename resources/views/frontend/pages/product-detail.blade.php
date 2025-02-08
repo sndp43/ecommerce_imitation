@@ -977,10 +977,12 @@
                     success: function(response) {
                         $('.message-box').val('');
                         $('.modal-body').append(`<div class="alert alert-success mt-2"><a href="{{ route('user.messages.index') }}" class="text-primary">Click here</a> for go to messenger.</div>`)
+                        toastr.remove();
                         toastr.success(response.message);
                     },
                     error: function(xhr, status, error) {
-                       toastr.error(xhr.responseJSON.message);
+                        toastr.remove();
+                        toastr.error(xhr.responseJSON.message);
                        $('.send-button').html('Send');
                        $('.send-button').prop('disabled', false);
                     },

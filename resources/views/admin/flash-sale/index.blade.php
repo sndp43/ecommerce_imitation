@@ -131,6 +131,7 @@
                         id: id
                     },
                     success: function(data){
+                        toastr.remove();
                         toastr.success(data.message)
                     },
                     error: function(xhr, status, error){
@@ -153,6 +154,7 @@
                         id: id
                     },
                     success: function(data){
+                        toastr.remove();
                         toastr.success(data.message)
                     },
                     error: function(xhr, status, error){

@@ -177,6 +177,7 @@
                     data: {status: status, id:id},
                     success: function(data){
                         if(data.status === 'success'){
+                            toastr.remove();
                             toastr.success(data.message)
                         }
                     },
@@ -196,6 +197,7 @@
                     data: {status: status, id:id},
                     success: function(data){
                         if(data.status === 'success'){
+                            toastr.remove();
                             toastr.success(data.message)
                         }
                     },

@@ -21,10 +21,12 @@ GMaps.geolocate({
   },
   // when geolocation is blocked by the user
   error: function(error) {
+    toastr.remove()
     toastr.error('Geolocation failed: '+error.message);
   },
   // when the user's browser does not support
   not_supported: function() {
+    toastr.remove()
     toastr.error("Your browser does not support geolocation");
   }
 });
