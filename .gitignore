@@ -18,8 +18,6 @@ public/storage/
 storage/framework/sessions/
 storage/framework/views/
 
-# Composer Install Files
-composer.lock
 
 # PHPUnit Test Coverage Files
 coverage/
