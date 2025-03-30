@@ -106,7 +106,7 @@
                                             </figure>
                                             <div class="product-caption text-center">
                                                 <div class="product-identity">
-                                                    <p class="manufacturer-name"><a href="#">{{$product->category->name}}</a></p>
+                                                    <p class="manufacturer-name"><a href="#">{{ $product->category ? $product->category->name : ''}}</a></p>
                                                 </div>
                                                 <!-- <ul class="color-categories">
                                                     <li>
