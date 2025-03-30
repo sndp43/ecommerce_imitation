@@ -99,7 +99,7 @@
                                             <i class="fa fa-check-circle"></i>
 
                                             @if ($product->qty > 0)
-                                               <span class="in_stock">in stock</span> ({{$product->qty}} item)</
+                                               <span class="in_stock">in stock</span> ({{$product->qty}} item)
                                             @elseif ($product->qty === 0)
                                                <span class="in_stock">stock out</span> ({{$product->qty}} item)
                                             @endif
@@ -114,7 +114,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="action_link">
-                                                    <!-- <a class="btn btn-cart2 add_cart" href="#">Add to cart</a> -->
+                                                   
                                                     <button type="submit" class="btn btn-cart2 add_cart" href="#">Add to cart</button>
                                                 </div>
                                             </div>
@@ -122,44 +122,23 @@
                                             
                                                 <input type="hidden" name="product_id" value="{{$product->id}}">
                                                 @foreach ($product->variants as $variant)
-                                                <div class="pro-size">
                                                     @if ($variant->status != 0)
-                                                        <h6 class="option-title">{{$variant->name}}: </h6>
-                                                            <select class="nice-select select_2" name="variants_items[]">
-                                                                @foreach ($variant->productVariantItems as $variantItem)
-                                                                    @if ($variantItem->status != 0)
-                                                                        <option value="{{$variantItem->id}}" {{$variantItem->is_default == 1 ? 'selected' : ''}}>{{$variantItem->name}} (${{$variantItem->price}})</option>
-                                                                    @endif
-                                                                @endforeach
-                                                            </select>
+                                                        <div class="pro-size">
+                                                            <h6 class="option-title">{{$variant->name}}: </h6>
+                                                                <select class="nice-select select_2" name="variants_items[]">
+                                                                    @foreach ($variant->productVariantItems as $variantItem)
+                                                                        @if ($variantItem->status != 0)
+                                                                            <option value="{{$variantItem->id}}" {{$variantItem->is_default == 1 ? 'selected' : ''}}>{{$variantItem->name}} (${{$variantItem->price}})</option>
+                                                                        @endif
+                                                                    @endforeach
+                                                                </select>
                                                         </div>
                                                     @endif
                                                 @endforeach
-                                            </div>
-                                            <!-- <div class="color-option">
-                                                <h6 class="option-title">color :</h6>
-                                                <ul class="color-categories">
-                                                    <li>
-                                                        <a class="c-lightblue" href="#" title="LightSteelblue"></a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="c-darktan" href="#" title="Darktan"></a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="c-grey" href="#" title="Grey"></a>
-                                                    </li>
-                                                    <li>
-                                                        <a class="c-brown" href="#" title="Brown"></a>
-                                                    </li>
-                                                </ul>
-                                            </div> -->
+                                            
                                         </form>
                                         <div class="useful-links">
-                                            <!-- <a href="#" data-bs-toggle="tooltip" title="Compare"><i
-                                                    class="pe-7s-refresh-2"></i>compare</a> -->
-                                            <!-- <a href="#" data-bs-toggle="tooltip" title="Wishlist"><i
-                                                    class="pe-7s-like"></i>wishlist</a> -->
-
+                                           
                                             <a  
                                             data-bs-toggle="tooltip"
                                             title="Add to wishlist" 
@@ -169,12 +148,7 @@
                                                 <i class="pe-7s-like"></i>wishlist
                                             </a>
 
-                                            <!-- <button type="button" style="border: 1px solid gray;
-                                        padding: 7px 11px;
-                                        margin-left: 7px;
-                                        border-radius: 100%; background-color: #0088cc" class="btn"  data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                            <i class="far fa-comment-alt text-light"></i>
-                                        </button> -->
+                                            
                                         </div>
                                         <div class="like-icon">
                                             <a class="facebook" href="#"><i class="fa fa-facebook"></i>like</a>
