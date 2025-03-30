@@ -36,7 +36,8 @@
         <div class="container">
             <div class="wsus__pay_info_area">
                 <div class="row">
-                    <h1>Paymet success!</h1>
+                    <h1>Thank you! Your Order is Received!</h1>
+                    <p>Your order is now being processed. You can check your <a class="btn btn-text" href="{{ route('user.orders.index')}}">Orders</a> under the 'My Account' section.</p>
                 </div>
             </div>
         </div>
