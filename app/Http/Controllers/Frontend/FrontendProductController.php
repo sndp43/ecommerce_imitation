@@ -122,7 +122,22 @@ class FrontendProductController extends Controller
     {
         $product = Product::with(['vendor', 'category', 'productImageGalleries', 'variants', 'brand'])->where('slug', $slug)->where('status', 1)->first();
         $reviews = ProductReview::where('product_id', $product->id)->where('status', 1)->paginate(10);
-        return view('frontend.pages.product-detail', compact('product', 'reviews'));
+
+        //$category = Category::where('slug', $product->category)->firstOrFail();
+        $related_products = Product::withAvg('reviews', 'rating')->withCount('reviews')
+        ->with(['variants', 'category', 'productImageGalleries'])
+        ->where([
+            'category_id' => $product->category_id,
+            'status' => 1,
+            'is_approved' => 1
+        ])
+        ->where('id', '!=', $product->id) // Exclude the current product
+        ->orderByDesc('reviews_avg_rating') // Sort by highest average rating
+        ->orderByDesc('reviews_count') // If ratings are the same, sort by most reviews
+        ->limit(50)
+        ->get();
+        
+        return view('frontend.pages.product-detail', compact('product', 'reviews','related_products'));
     }
 
     public function chageListView(Request $request)
