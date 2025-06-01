@@ -27,5 +27,8 @@ npm-debug.log
 yarn-debug.log
 yarn-error.log
 
+# Images and other media
+public/uploads/
+
 # Environment variables
 .env
