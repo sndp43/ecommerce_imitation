@@ -8,6 +8,7 @@ use App\Models\LogoSetting;
 use App\Models\PusherSetting;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -28,25 +29,29 @@ class AppServiceProvider extends ServiceProvider
     {
         Paginator::useBootstrap();
 
+        if (! Schema::hasTable('general_settings')) {
+            return;
+        }
+
         $generalSetting = GeneralSetting::first();
         $logoSetting = LogoSetting::first();
         $mailSetting = EmailConfiguration::first();
         $pusherSetting = PusherSetting::first();
         /** set time zone */
-        Config::set('app.timezone', $generalSetting->time_zone);
+        Config::set('app.timezone', $generalSetting?->time_zone ?? 'Asia/Dhaka');
 
         /** Set Mail Config */
-        Config::set('mail.mailers.smtp.host', $mailSetting->host);
-        Config::set('mail.mailers.smtp.port', $mailSetting->port);
-        Config::set('mail.mailers.smtp.encryption', $mailSetting->encryption);
-        Config::set('mail.mailers.smtp.username', $mailSetting->username);
-        Config::set('mail.mailers.smtp.password', $mailSetting->password);
+        Config::set('mail.mailers.smtp.host', $mailSetting?->host ?? 'smtp.example.com');
+        Config::set('mail.mailers.smtp.port', $mailSetting?->port ?? 587);
+        Config::set('mail.mailers.smtp.encryption', $mailSetting?->encryption ?? 'tls');
+        Config::set('mail.mailers.smtp.username', $mailSetting?->username ?? '');
+        Config::set('mail.mailers.smtp.password', $mailSetting?->password ?? '');
 
         /** Set Broadcasting Config */
-        Config::set('broadcasting.connections.pusher.key', $pusherSetting->pusher_key);
-        Config::set('broadcasting.connections.pusher.secret', $pusherSetting->pusher_secret);
-        Config::set('broadcasting.connections.pusher.app_id', $pusherSetting->pusher_app_id);
-        Config::set('broadcasting.connections.pusher.options.host', "api-".$pusherSetting->pusher_cluster.".pusher.com");
+        Config::set('broadcasting.connections.pusher.key', $pusherSetting?->pusher_key ?? '');
+        Config::set('broadcasting.connections.pusher.secret', $pusherSetting?->pusher_secret ?? '');
+        Config::set('broadcasting.connections.pusher.app_id', $pusherSetting?->pusher_app_id ?? '');
+        Config::set('broadcasting.connections.pusher.options.host', 'api-'.($pusherSetting?->pusher_cluster ?? 'us').'.pusher.com');
 
 
 
