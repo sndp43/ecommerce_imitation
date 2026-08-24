@@ -5,7 +5,7 @@
             <div class="container">
                 <div class="row row-20 mtn-20">
                     <div class="col-sm-6">
-                    @if ($homepage_secion_banner_two->banner_one->status == 1)
+                    @if ($homepage_secion_banner_two?->banner_one?->status == 1)
                         <figure class="banner-statistics mt-20">
                             <a href="{{$homepage_secion_banner_two->banner_one->banner_url}}">
                                 <img src="{{asset($homepage_secion_banner_two->banner_one->banner_image)}}" alt="product banner">
@@ -19,7 +19,7 @@
                         </figure>
                     </div>
                     <div class="col-sm-6">
-                    @if ($homepage_secion_banner_two->banner_two->status == 1)
+                    @if ($homepage_secion_banner_two?->banner_two?->status == 1)
                         <figure class="banner-statistics mt-20">
                             <a href="{{$homepage_secion_banner_two->banner_two->banner_url}}">
                                 <img src="{{asset($homepage_secion_banner_two->banner_two->banner_image)}}" alt="product banner">
@@ -33,7 +33,7 @@
                         </figure>
                     </div>
                     <div class="col-sm-6">
-                    @if ($homepage_secion_banner_two->banner_three->status == 1)
+                    @if ($homepage_secion_banner_two?->banner_three?->status == 1)
                         <figure class="banner-statistics mt-20">
                             <a href="{{$homepage_secion_banner_two->banner_three->banner_url}}">
                                 <img src="{{asset($homepage_secion_banner_two->banner_three->banner_image)}}" alt="product banner">
@@ -47,7 +47,7 @@
                         </figure>
                     </div>
                     <div class="col-sm-6">
-                    @if ($homepage_secion_banner_two->banner_four->status == 1)
+                    @if ($homepage_secion_banner_two?->banner_four?->status == 1)
                         <figure class="banner-statistics mt-20">
                             <a href="{{$homepage_secion_banner_two->banner_four->banner_url}}">
                                 <img src="{{asset($homepage_secion_banner_two->banner_four->banner_image)}}" alt="product banner">
